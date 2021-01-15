@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/12 19:57:07 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 15:43:44 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,74 @@ int modify_img(char *img, t_info *parsing)
 int parsing_map(t_info *parsing, char *file)
 {
 	(void)file;
-	parsing->fov = 60;
-	parsing->width_screen = 1000;
-	parsing->height_screen = 700;
-	parsing->angle_per_pix = (double)parsing->fov / (double)parsing->width_screen;
-	parsing->distance_screen = (double)parsing->width_screen / tan((float)(parsing->fov / 2)*180/3.1415927);
-	printf("angle/pixel = %f, tan(30) = %f, distance screen = %d\n", parsing->angle_per_pix, tan((float)(parsing->fov / 2)*180/3.1415927), parsing->distance_screen);
+	int i = -1, j = -1;
+	// int fd;
+	// int ret;
+	// char *line;
+	int map[6][6];
+
+	map[0][0] = 1;
+	map[0][1] = 1;
+	map[0][2] = 1;
+	map[0][3] = 1;
+	map[0][4] = 1;
+	map[0][5] = 1;
+	map[1][0] = 1;
+	map[1][1] = 0;
+	map[1][2] = 0;
+	map[1][3] = 0;
+	map[1][4] = 0;
+	map[1][5] = 1;
+	map[2][0] = 1;
+	map[2][1] = 0;
+	map[2][2] = 0;
+	map[2][3] = 0;
+	map[2][4] = 0;
+	map[2][5] = 1;
+	map[3][0] = 1;
+	map[3][1] = 0;
+	map[3][2] = 0;
+	map[3][3] = 3;
+	map[3][4] = 0;
+	map[3][5] = 1;
+	map[4][0] = 1;
+	map[4][1] = 0;
+	map[4][2] = 0;
+	map[4][3] = 0;
+	map[4][4] = 0;
+	map[4][5] = 1;
+	map[5][0] = 1;
+	map[5][1] = 1;
+	map[5][2] = 1;
+	map[5][3] = 1;
+	map[5][4] = 1;
+	map[5][5] = 1;
+	while (++i < 6)
+	{
+		j = -1;
+		while (++j < 6)
+			printf("%d ", map[i][j]);
+		printf("\n");
+	}
+	// fd = open("map.cub", O_RDONLY);
+	// ret = 1;
+	// while (ret > 0)
+	// {
+	// 	ret = get_next_line(fd, &line);
+	// 	while (line[i])
+	// 	{
+	// 		if (line[i] == ' ')
+	// 	}
+	// }
+	
+	parsing->fov = 60 / (180/M_PI);
+	parsing->width_screen = 960;
+	parsing->height_screen = 600;
+	parsing->wall_h = 64;
+	parsing->player_h = parsing->wall_h / 2;
+	parsing->angle_per_pix = parsing->fov / (double)parsing->width_screen;
+	parsing->distance_screen = (double)parsing->width_screen / tan((parsing->fov / 2));
+	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, distance screen = %d\n", parsing->player_h, parsing->angle_per_pix, tan((parsing->fov / 2)), parsing->distance_screen);
 	return (0);
 }
 
@@ -49,7 +111,7 @@ int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
-	t_info parsing = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+	t_info parsing = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	int i, j = 9;
 	int bpp;
 	int size_line;
