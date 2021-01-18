@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/15 19:17:44 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/01/18 16:23:06 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <limits.h>
 #include "mlx.h"
 #include "libft.h"
 #include "get_next_line.h"
@@ -25,21 +26,35 @@ typedef struct	s_info
 {
 	void *mlx_ptr;
 	void *win_ptr;
+	void *img_ptr;
+	int *img;
+	int screen_w;
+	int screen_h;
+	int screen_d;
+	int wall_col;
+	int floor_col;
+	int sky_col;
+	int map_w;
+	int map_h;
+	int **map;
+	int wall_h;
+	int player_h;
+	double speed;
+	double fov;
+	double angle_per_pix;
 	double pos_x;
 	double pos_y;
-	int player_h;
-	int wall_h;
-	double fov;
-	int width_screen;
-	int height_screen;
-	int distance_screen;
-	double angle_per_pix;
-}				t_info;
+	double angle;
+
+}				t_pars;
 
 typedef struct	s_xy_cub
 {
 	double x;
 	double y;
+	double distance;
 }				t_xy_cub;
+
+void modify_img(t_pars *pars);
 
 #endif
