@@ -16,18 +16,22 @@ RM          = rm -f
 
 LIBFT		= libft
 
-MINILIBX	= minilibx
+MINILIBX	= minilibx_mms
+#MINILIBX	= minilibx_opengl
 
-COMP		= $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
+COMP		= $(LIBFT)/libft.a libmlx.dylib
+#COMP		= $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 
 all:		$(NAME)
 
 $(NAME): 	$(COMP) $(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(FRAMEWORK) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
+			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
+#			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(FRAMEWORK) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
 
 $(COMP):
 			make -C $(LIBFT)
 			make -C $(MINILIBX)
+			cp minilibx_mms/libmlx.dylib .
 
 %.o:		%.c $(COMP) include/cub3d.h
 			$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@

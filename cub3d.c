@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/18 17:58:52 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/01/19 17:51:06 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ t_xy_cub first_wall_horiz(t_pars *pars, double x_dir, double y_dir)
 //	printf("sin_a = %f, cos_a = %.f, x = %f\n", sin_a, cos_a, x);
 
 //	printf("x = %f, y = %d, x_dir = %f, y_dir = %f, pars->map_w = %d, pars->map_h = %d,pars->map[x][y] = %d\n", x, y, x_dir, y_dir, pars->map_w, pars->map_h,pars->map[(int)x][y]);
-	while ((x >= 0 && x <= pars->map_w && y >= 0 && y <= pars->map_h) &&
-			((y_dir > 0 &&pars->map[(int)x][y] != -1) || (y_dir < 0 &&pars->map[(int)x][y - 1] != -1)))
+	while ((x >= 0 && x < pars->map_w && y >= 0 && y < pars->map_h) &&
+			((y_dir > 0 && pars->map[y][(int)x] != -1) || (y_dir < 0 && pars->map[y - 1][(int)x] != -1)))
 	{
 //		printf("Debut boucle : x = %f, y = %d,pars->map[x][y] = %d\n", x, y,pars->map[(int)x][y]);
-		if ((y_dir > 0 &&pars->map[(int)x][y] == 1) || (y_dir < 0 &&pars->map[(int)x][y - 1] == 1))
+		if ((y_dir > 0 && pars->map[y][(int)x] == 1) || (y_dir < 0 && pars->map[y - 1][(int)x] == 1))
 		{
 			wall_horiz.x = x;
 			wall_horiz.y = y;
@@ -52,7 +52,9 @@ t_xy_cub first_wall_horiz(t_pars *pars, double x_dir, double y_dir)
 			y -= 1;
 		if (fabs(y_dir) != 1)
 			x = pars->pos_x + (((double)y - pars->pos_y) / (y_dir / x_dir));
-		//printf("Fin boucle : x = %f, y = %d,pars->map[x][y] = %d, slope = %f\n", x, y,pars->map[(int)x][y], slope);
+	//	printf("test bug map chelou\n");
+	//	printf("Fin boucle Horizontale : x = %f, y = %d, map_w = %d\n", x, y, pars->map_w);
+	//	printf("Fin boucle : x = %f, y = %d, pars->map[x][y] = %d\n", x, y,pars->map[(int)x][y]);
 	}
 	return (wall_horiz);
 }
@@ -75,10 +77,10 @@ t_xy_cub first_wall_verti(t_pars *pars, double x_dir, double y_dir)
 
 //	printf("x = %f, y = %d, x_dir = %f, y_dir = %f, pars->map_w = %d, pars->map_h = %d,pars->map[x][y] = %d\n", x, y, x_dir, y_dir, pars->map_w, pars->map_h,pars->map[(int)x][y]);
 	while ((x >= 0 && x <= pars->map_w && y >= 0 && y <= pars->map_h) &&
-			((x_dir > 0 &&pars->map[x][(int)y] != -1) || (x_dir < 0 &&pars->map[x - 1][(int)y] != -1)))
+			((x_dir > 0 && pars->map[(int)y][x] != -1) || (x_dir < 0 && pars->map[(int)y][x - 1] != -1)))
 	{
 //		printf("Debut boucle : x = %d, y = %f,pars->map[x][y] = %d\n", x, y,pars->map[x][(int)y]);
-		if ((x_dir > 0 &&pars->map[x][(int)y] == 1) || (x_dir < 0 &&pars->map[x - 1][(int)y] == 1))
+		if ((x_dir > 0 && pars->map[(int)y][x] == 1) || (x_dir < 0 && pars->map[(int)y][x - 1] == 1))
 		{
 			wall_verti.x = x;
 			wall_verti.y = y;
@@ -122,7 +124,6 @@ t_xy_cub find_wall_contact(t_pars *pars, double angle)
 //			printf("distance horiz = %f, x = %f, y = %f\n", distance_horiz, wall_horiz.x - pars->pos_x, wall_horiz.y - pars->pos_y);
 		}
 	}
-
 	if (fabs(y_dir) != 1)
 //	if (sin(angle) != 0)
 	{
@@ -155,7 +156,24 @@ t_xy_cub find_wall_contact(t_pars *pars, double angle)
 	return (first_wall);
 }
 
-int print_col(int *img, t_xy_cub wall, int i, t_pars *pars)
+int print_wall_texture(int wall_h_screen, int sky_floor_h, t_xy_cub wall, int *line, int *i, t_pars *pars)
+{
+	(void)wall;
+	// double scope_x;
+
+	// scope_x = wall.
+
+	while (*line < wall_h_screen + sky_floor_h / 2)
+	{
+		pars->img[*i] = pars->wall_col;
+		*i += pars->screen_w;
+		(*line)++;
+//		printf("line wall = %d, i = %d\n", *line, *i);
+	}
+	return (1);
+}
+
+int print_col(t_xy_cub wall, int i, t_pars *pars)
 {
 	int wall_h_screen;
 	int line;
@@ -170,32 +188,33 @@ int print_col(int *img, t_xy_cub wall, int i, t_pars *pars)
 		wall_h_screen = pars->screen_h;
 	} 
 //	printf("wall_h_screen + sky_floor_h / 2 = %d, sky_floor_h / 2 = %d\n", wall_h_screen + sky_floor_h / 2, sky_floor_h / 2);
-//	printf("wall_h = %d, wall_d = %f, screen_d = %d\n", pars->wall_h, wall.distance, pars->screen_d);
-//	printf("wall_h_screen = %d, sky_floor_h = %d\n", wall_h_screen, sky_floor_h);
+//	printf("wall_d = %f, screen_d = %d\n", wall.distance, pars->screen_d);
+//	printf("colonne = %d, wall_h_screen = %d, sky_floor_h = %d\n", count, wall_h_screen, sky_floor_h);
 	
 	line = 0;
 	while (line < sky_floor_h / 2)
 	{
-		img[i] = pars->sky_col;
+		pars->img[i] = pars->sky_col;
 		i += pars->screen_w;
 		line++;
-//		printf("line = %d, ", line);
+//		printf("line sky = %d", line);
 	}
 //	line = -1;
-	while (line < wall_h_screen + sky_floor_h / 2)
-	{
-		img[i] = pars->wall_col;
-		i += pars->screen_w;
-		line++;
+	print_wall_texture(wall_h_screen, sky_floor_h, wall, &line, &i, pars);
+	// while (line < wall_h_screen + sky_floor_h / 2)
+	// {
+	// 	pars->img[i] = pars->wall_col;
+	// 	i += pars->screen_w;
+	// 	line++;
 //		printf("line wall = %d, ", line);
-	}
-//	line = 0;
+	// }
+//	line += wall_h_screen;
 	while (line < pars->screen_h)
 	{
-		img[i] = pars->floor_col;
+		pars->img[i] = pars->floor_col;
 		i += pars->screen_w;
 		line++;
-//		printf("line = %d, ", line);
+	//	printf("line floor = %d, ", line);
 	}
 	return (1);
 }
@@ -208,11 +227,13 @@ void modify_img(t_pars *pars)
 
 	count = 0;
 	angle = pars->angle - (pars->fov / 2);
-	while (angle <= pars->angle + (pars->fov / 2))
+	while (count < pars->screen_w)
 	{
+	//	printf("angle = %f\n", angle);
 		wall = find_wall_contact(pars, angle / (180 / M_PI));
-//		printf("colonne = %d\n", count);
-		print_col(pars->img, wall, count, pars);
+	//	printf("colonne = %d\n", count);
+	//	printf("colonne = %d, wall.distance = %f\n", count, wall.distance);
+		print_col(wall, count, pars);
 		count++;
 		angle += pars->angle_per_pix;
 	}
