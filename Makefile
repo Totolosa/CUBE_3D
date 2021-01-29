@@ -1,12 +1,12 @@
 NAME		= cub3D
 
-SRCS		= main.c cub3d.c
+SRCS		= main.c cub3d_v3.c
 
 OBJS		= $(SRCS:.c=.o)
 
 CC          = gcc
 
-CFLAGS      = -Wall -Werror -Wextra
+CFLAGS      = -Wall -Werror -Wextra -fsanitize=address -g3
 
 INCLUDE		= -Iinclude -I$(MINILIBX) -I$(LIBFT)/include
 

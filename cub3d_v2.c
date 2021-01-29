@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d_v2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/22 10:23:36 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/01/27 16:03:14 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,33 +158,54 @@ t_xy_cub find_wall_contact(t_pars *pars, double angle)
 	return (first_wall);
 }
 
-int print_wall_texture(int wall_h_screen, int sky_floor_h, t_xy_cub *wall, int *line, int *i, t_pars *pars)
+int print_wall_texture(double wall_h_screen, int sky_h, int *line, t_xy_cub *wall, int *i, t_pars *pars)
 {
 	// (void)wall;
+//	(void)sky_h;
 	double scale_h = 0;
 	double scale_w = 0;
 	int j;
 	double tmp1;
 	double tmp2;
+//	double percent;
+	int start;
+//	int line = 0;
+//	double scale2 = 1;
 
 	scale_h = (double)pars->wall_text->h / (double)wall_h_screen;
+	tmp1 = scale_h;
 	if (wall->orient == 'h')
 		scale_w = modf(wall->x, &scale_w);
 	else if (wall->orient == 'v')
 		scale_w = modf(wall->y, &scale_w);
 	j = scale_w * pars->wall_text->w;
-	tmp1 = scale_h;
 	tmp2 = j;
-//	printf("wall->orient = %c, scale_w = %f, j = %d, scale_h = %f\n", wall->orient, scale_w ,j ,scale_h);
-
-	while (*line < wall_h_screen + sky_floor_h / 2)
+	//printf("j = %d\n", j);
+	if (wall_h_screen > pars->screen_h)
 	{
-	//	printf("scale_w = %f, scale_h = %f, j = %d, pars->wall_text->w = %d\n", scale_w, scale_h, j, pars->wall_text->w);
+	//	percent = ((double)wall_h_screen - (double)pars->screen_h) / 2 / (double)wall_h_screen;
+		start = ((double)wall_h_screen - (double)pars->screen_h) / 2 / (double)wall_h_screen * (double)pars->wall_text->h;
+		j += start * (double)pars->wall_text->size_line ;
+	//	j += (wall_h_screen - pars->screen_h) / 2) / wall_h_screen * pars->wall_text->h * pars->wall_text->size_line ;
+	//	printf("start = %d, j = %d, wall_h_screen = %f, i = %d, pars->screen_h = %d, pars->wall_text->h = %d, pars->wall_text->size_line = %d, pos_x = %f, pos_y = %f, angle = %f\n", start, j, wall_h_screen, *i, pars->screen_h, pars->wall_text->h, pars->wall_text->size_line, pars->pos_x, pars->pos_y, pars->angle);
+	//	scale2 = pars->wall_text->h / pars->screen_h;
+		tmp2 = j;
+		wall_h_screen = pars->screen_h ;
+	//	scale_h = 1 / scale_h; 
+	}
+//	printf("wall->orient = %c, scale_w = %f, j = %d, scale_h = %f\n", wall->orient, scale_w ,j ,scale_h);
+	printf("i =  %d\n", *i / pars->size_line);
+
+	while (*line < wall_h_screen + sky_h && j < pars->wall_text->h * pars->wall_text->size_line)
+//	while (j < pars->wall_text->h * pars->wall_text->size_line)
+	{
+	//	printf("line = %d, wall_h_screen = %f, i = %d, scale_w = %f, scale_h = %f, j = %d, pars->wall_text->w = %d\n", *line, wall_h_screen, *i, scale_w, scale_h, j, pars->wall_text->w);
 		pars->img[*i] = pars->wall_text->img[j];
 	//	pars->img[*i] = pars->wall_col;
 		*i += pars->size_line;
 		scale_h += tmp1;
-		j = tmp2 + ((int)scale_h * (pars->wall_text->size_line));
+		j = tmp2 + ((int)scale_h * (pars->wall_text->size_line)) ;
+	//	j = tmp2 + ((int)scale_h * scale2 * (pars->wall_text->size_line));
 		(*line)++;
 	//	printf("line wall = %d, i = %d\n", *line, *i);
 	}
@@ -194,24 +215,33 @@ int print_wall_texture(int wall_h_screen, int sky_floor_h, t_xy_cub *wall, int *
 
 int print_col(t_xy_cub wall, int i, t_pars *pars)
 {
-	int wall_h_screen;
+	double wall_h_screen;
 	int line;
-	int sky_floor_h;
+	int sky_h;
+//	int floor_h;
 
-	wall_h_screen = pars->screen_d / wall.distance;
-	if (wall_h_screen < pars->screen_h)
-		sky_floor_h = pars->screen_h - wall_h_screen;
+	wall_h_screen = (double)pars->screen_d / wall.distance;
+	// if ((wall_h_screen = (double)pars->screen_d / wall.distance) % 2 == 1)
+	// 	wall_h_screen += 0;
+	if (wall_h_screen <= pars->screen_h)
+	{
+		sky_h = ((double)pars->screen_h - wall_h_screen) / 2;
+		// if ((pars->screen_h - wall_h_screen) % 2 == 0)
+		// 	floor_h = sky_h;
+		// else 
+		// 	floor_h = sky_h + 1;
+	}
 	else
 	{
-		sky_floor_h = -1;
-		wall_h_screen = pars->screen_h;
+		sky_h = 0;
+//		floor_h = 0;
+	//	wall_h_screen = pars->screen_h;
 	} 
 //	printf("wall_h_screen + sky_floor_h / 2 = %d, sky_floor_h / 2 = %d\n", wall_h_screen + sky_floor_h / 2, sky_floor_h / 2);
 //	printf("wall_d = %f, screen_d = %d\n", wall.distance, pars->screen_d);
 //	printf("colonne = %d, wall_h_screen = %d, sky_floor_h = %d\n", count, wall_h_screen, sky_floor_h);
-	
 	line = 0;
-	while (line < sky_floor_h / 2)
+	while (line < sky_h)
 	{
 		pars->img[i] = pars->sky_col;
 		i += pars->size_line;
@@ -219,7 +249,7 @@ int print_col(t_xy_cub wall, int i, t_pars *pars)
 //		printf("line sky = %d", line);
 	}
 //	line = -1;
-	print_wall_texture(wall_h_screen, sky_floor_h, &wall, &line, &i, pars);
+	print_wall_texture(wall_h_screen, sky_h, &line, &wall, &i, pars);
 	// while (line < wall_h_screen + sky_floor_h / 2)
 	// {
 	// 	pars->img[i] = pars->wall_col;
@@ -250,7 +280,7 @@ void modify_img(t_pars *pars)
 	{
 	//	printf("angle = %f\n", angle);
 		wall = find_wall_contact(pars, angle / (180 / M_PI));
-		//printf("colonne = %d\n", count);
+	//	printf("colonne = %d\n", count);
 	//	printf("colonne = %d, wall.distance = %f\n", count, wall.distance);
 		print_col(wall, count, pars);
 		count++;
