@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/28 17:22:47 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/01 16:33:45 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ int parsing_map(t_pars *pars, char *file)
 	int i = -1, j = -1;
 	pars->map_w = 0;
 	pars->map_h = 1;
-	pars->pos_x = 9.5;
+	pars->pos_x = 3;
 //	pars->pos_x = 10.498097;
-	pars->pos_y = 5;
+	pars->pos_y = 3;
 //	pars->pos_y = 5.456422;
-	pars->angle = -45;
+	pars->angle = 45;
 	pars->speed = 0.2;
 	pars->map_file = file;
 
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 //	t_pars parsing = {0, 0, 0, 0, 0, 0, 0, 0,{0, 0, 0, 0}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	t_text wall_text = {0, 0, 0, 0, 0, 0, 0, 0};
 	t_text sprite_text = {0, 0, 0, 0, 0, 0, 0, 0};
-	t_pars parsing = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &wall_text, &sprite_text};
+	t_pars parsing = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &wall_text, &sprite_text};
 	
 	int bpp = 0;
 	int endian = 0;

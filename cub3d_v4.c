@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_v3.c                                         :+:      :+:    :+:   */
+/*   cub3d_v4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/02 17:24:34 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 18:02:01 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_t_ray(t_ray *ray)
+void init_t_ray(t_ray *ray, double angle)
 {
 	// t_contact wall;
 	// t_contact **sprites;
@@ -25,21 +25,87 @@ void init_t_ray(t_ray *ray)
 	ray->wall.orient = 0;
 	ray->sprites = NULL;
 	ray->nb_sprites = 0;
+	ray->angle = angle;
 	
 	// ray->wall = wall;
 	// ray->sprites = sprites;
 	// ray->nb_sprites = 0;
 }
 
-int add_sprite(int x, int y, t_ray *ray, t_pars *pars)
+int add_one_sprite(t_contact *new, t_contact old)
 {
-	//printf("test\n");
-	if ((ray->sprites = malloc(sizeof(t_contact) * (ray->nb_sprites + 1))) == NULL)
+	new->x = old.x;
+	new->y = old.y;
+	new->distance = old.distance;
+	new->orient = old.orient;
+	return (1);
+}
+
+int coord_center_sprite(double *xc, double *yc, t_ray *ray)
+{
+	if (ray->wall.orient == 'h')
+	{
+		if (sin(ray->angle > 0))
+			*yc += 0.5;
+		else 
+			*yc -= 0.5;
+		*xc = floor(*xc) + 0.5;
+	}
+	if (ray->wall.orient == 'v')
+	{
+		if (cos(ray->angle > 0))
+			*xc += 0.5;
+		else 
+			*xc -= 0.5;
+		*yc = floor(*yc) + 0.5;
+	}
+	return (1);
+}
+
+int coord_contact_sprite(double xc, double yc, t_ray *ray, t_pars *pars)
+{
+	double ar;
+	double br;
+	double cr;
+	double as;
+	double bs;
+	double cs;
+
+	ar = sin(ray->angle / (180 / M_PI));
+	br = - cos(ray->angle / (180 / M_PI));
+	cr = cos(ray->angle / (180 / M_PI)) * pars->pos_y - sin(ray->angle / (180 / M_PI)) * pars->pos_x;
+	as = cos(ray->angle / (180 / M_PI));
+	bs = sin(ray->angle / (180 / M_PI));
+	cs = - cos(ray->angle / (180 / M_PI)) * xc - sin(ray->angle / (180 / M_PI)) * yc;
+
+	printf("xc = %f, yc = %f\n", xc , yc);
+	return (1);
+}
+
+int add_sprite(double x, double y, t_ray *ray, t_pars *pars)
+{
+	int i;
+	double xc;
+	double yc;
+
+	t_contact *new;
+	
+	xc = x;
+	yc = y;
+	coord_center_sprite(&xc, &yc, ray);
+	coord_contact_sprite(xc, yc, ray, pars);
+
+
+//	printf("x = %f, y = %f, nb_sprites = %d, sprites[%d].distance = %f\n", x , y, ray->nb_sprites, ray->nb_sprites, ray->sprites[ray->nb_sprites].distance);
+	
+	if ((new = malloc(sizeof(t_contact) * (ray->nb_sprites + 1))) == NULL)
 		return (0);
-	ray->sprites[ray->nb_sprites].x = x;
-	ray->sprites[ray->nb_sprites].y = y;
+	i = -1;
+	while (++i < ray->nb_sprites)
+		add_one_sprite(new, ray->sprites[i]);
+	free(ray->sprites);
+	ray->sprites = new;
 	ray->sprites[ray->nb_sprites].distance = sqrt(pow(y - pars->pos_y, 2) + pow(x - pars->pos_x, 2));
-	ray->sprites[ray->nb_sprites].orient = 'h';
 	ray->nb_sprites++;
 	return (1);
 }
@@ -52,18 +118,48 @@ int total_sprites(t_ray *ray, t_ray horiz, t_ray verti)
 
 	if (!(ray->sprites = malloc(sizeof(t_contact) * ray->nb_sprites)))
 		return (0);
-	while (++k < ray->nb_sprites)
-	{
-		if (horiz.sprites[i].distance < verti.sprites[j].distance)
+	// if (horiz.nb_sprites == 0)
+	// {	
+	// 	while (k < verti.nb_sprites)
+	// 		ray->sprites[k++] = verti.sprites[i++];
+	// 	return (1);
+	// }
+	// else if (verti.nb_sprites == 0)
+	// {	
+	// 	while (k < horiz.nb_sprites)
+	// 		ray->sprites[k++] = horiz.sprites[j++];
+	// 	return (1);
+	// }
+	// else 
+	// {
+		while (k < ray->nb_sprites)
 		{
-			ray->sprites[k] = horiz.sprites[i];
-			i++;
-		}
-		else
-		{
-			ray->sprites[k] = verti.sprites[j];
-			j++;
-		}
+//			printf("i = %d, j = %d, k = %d, horiz.nb_sprites = %d, horiz.sprites[0].distance = %f, verti.nb_sprites = %d\n", i, j, k, horiz.nb_sprites, verti.sprites[0].distance, verti.nb_sprites);
+			if (horiz.nb_sprites == 0)
+			{	
+				while (j < verti.nb_sprites)
+					ray->sprites[k++] = verti.sprites[j++];
+			}
+			else if (verti.nb_sprites == 0)
+			{	
+				while (i < horiz.nb_sprites)
+					ray->sprites[k++] = horiz.sprites[i++];
+				return (1);
+			}
+			else if (horiz.sprites[i].distance < verti.sprites[j].distance)
+			{
+				ray->sprites[k] = horiz.sprites[i];
+				i++;
+				horiz.nb_sprites--;
+			}
+			else
+			{
+				ray->sprites[k] = verti.sprites[j];
+				j++;
+				verti.nb_sprites--;
+			}
+			k++;
+//		}
 	}
 	return (1);
 }
@@ -73,6 +169,7 @@ int first_wall_horiz(t_ray *horiz, t_pars *pars, double x_dir, double y_dir)
 {
 	double x;
 	int y;
+
 	horiz->wall.orient = 'h';
 	
 	if (y_dir > 0 && pars->pos_y != floor(pars->pos_y))
@@ -87,8 +184,8 @@ int first_wall_horiz(t_ray *horiz, t_pars *pars, double x_dir, double y_dir)
 	while ((x >= 1 && x < pars->map_w && y >= 1 && y < pars->map_h) &&
 			((y_dir > 0 && pars->map[y][(int)x] != -1) || (y_dir < 0 && pars->map[y - 1][(int)x] != -1)))
 	{
-		// if ((y_dir > 0 && pars->map[y][(int)x] == 2) || (y_dir < 0 && pars->map[y - 1][(int)x] == 2))
-		// 	add_sprite(x, y, horiz, pars);
+		if ((y_dir > 0 && pars->map[y][(int)x] == 2) || (y_dir < 0 && pars->map[y - 1][(int)x] == 2))
+			add_sprite(x, (double)y, horiz, pars);
 		if ((y_dir > 0 && pars->map[y][(int)x] == 1) || (y_dir < 0 && pars->map[y - 1][(int)x] == 1))
 		{
 			horiz->wall.x = x;
@@ -127,8 +224,8 @@ int first_wall_verti(t_ray *verti, t_pars *pars, double x_dir, double y_dir)
 			((x_dir > 0 && pars->map[(int)y][x] != -1) || (x_dir < 0 && pars->map[(int)y][x - 1] != -1)))
 	{
 	//	printf("Debut boucle : x = %d, y = %f,pars->map[x][y] = %d\n", x, y,pars->map[x][(int)y]);
-		// if ((x_dir > 0 && pars->map[(int)y][x] == 2) || (x_dir < 0 && pars->map[(int)y][x - 1] == 2))
-		// 	add_sprite(x, y, verti, pars);
+		if ((x_dir > 0 && pars->map[(int)y][x] == 2) || (x_dir < 0 && pars->map[(int)y][x - 1] == 2))
+			add_sprite((double)x, y, verti, pars);
 		if ((x_dir > 0 && pars->map[(int)y][x] == 1) || (x_dir < 0 && pars->map[(int)y][x - 1] == 1))
 		{
 			verti->wall.x = x;
@@ -153,18 +250,18 @@ int first_wall_verti(t_ray *verti, t_pars *pars, double x_dir, double y_dir)
 	return (1);
 }
 
-int find_wall_contact(t_ray *ray, t_pars *pars, double angle)
+int find_wall_contact(t_ray *ray, t_pars *pars)
 {
 	// double distance_horiz = -1;
 	// double distance_verti = -1;
-	double x_dir = cos(angle);
-	double y_dir = sin(angle);
+	double x_dir = cos(ray->angle / (180 / M_PI));
+	double y_dir = sin(ray->angle / (180 / M_PI));
 
 	t_ray horiz;
 	t_ray verti;
 
-	init_t_ray(&horiz);
-	init_t_ray(&verti);
+	init_t_ray(&horiz, ray->angle / (180 / M_PI));
+	init_t_ray(&verti, ray->angle / (180 / M_PI));
 //	printf("test\n");
 	
 
@@ -207,17 +304,17 @@ int find_wall_contact(t_ray *ray, t_pars *pars, double angle)
 		ray->wall.y = verti.wall.y;
 		ray->wall.orient = verti.wall.orient;
 	}
-//	printf("dist_horiz = %f, dist_verti = %f, disance finale = %f\n", distance_horiz, distance_verti, first_wall.distance);
+//	printf("dist_horiz = %f, dist_verti = %f, disance finale = %f\n", horiz.wall.distance, verti.wall.distance, ray->wall.distance);
 	ray->nb_sprites = horiz.nb_sprites + verti.nb_sprites;
 	if (ray->nb_sprites > 0)
 		total_sprites(ray, horiz, verti);
-	angle = fabs((pars->angle / (180 / M_PI)) - angle);
-	ray->wall.distance = cos(angle) * ray->wall.distance;
+//	ray->angle = fabs((pars->angle / (180 / M_PI)) - ray->angle / (180 / M_PI));
+	ray->wall.distance = cos(fabs((pars->angle / (180 / M_PI)) - ray->angle / (180 / M_PI))) * ray->wall.distance;
 
 	return (1);
 }
 
-int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_ray *ray, t_pars *pars)
+int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_contact contact, t_pars *pars)
 {
 	// (void)wall;
 //	(void)sky_h;
@@ -227,10 +324,10 @@ int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_ray
 	double y_text = 0;
 
 	scale_h = (double)pars->wall_text->h / (double)wall_h_screen;
-	if (ray->wall.orient == 'h')
-		scale_w = modf(ray->wall.x, &scale_w);
-	else if (ray->wall.orient == 'v')
-		scale_w = modf(ray->wall.y, &scale_w);
+	if (contact.orient == 'h')
+		scale_w = modf(contact.x, &scale_w);
+	else if (contact.orient == 'v')
+		scale_w = modf(contact.y, &scale_w);
 	x_text = scale_w * (double)pars->wall_text->w;
 
 	if (wall_h_screen > pars->screen_h)
@@ -257,14 +354,15 @@ int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_ray
 	return (1);
 }
 
-int print_col(t_ray *ray, int x, t_pars *pars)
+int print_col(t_contact contact, int x, t_pars *pars)
 {
 	double wall_h_screen;
 	double sky_h;
 	int y;
 //	int floor_h;
 
-	wall_h_screen = (double)pars->screen_d / ray->wall.distance;
+//	printf("contact.distance = %f\n", contact.distance);
+	wall_h_screen = (double)pars->screen_d / contact.distance;
 	// if ((wall_h_screen = (double)pars->screen_d / wall.distance) % 2 == 1)
 	// 	wall_h_screen += 0;
 	if (wall_h_screen <= pars->screen_h)
@@ -283,8 +381,8 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 	} 
 //	printf("wall_h_screen + sky_floor_h / 2 = %d, sky_floor_h / 2 = %d\n", wall_h_screen + sky_floor_h / 2, sky_floor_h / 2);
 //	printf("wall_d = %f, screen_d = %d\n", wall.distance, pars->screen_d);
-//	printf("colonne = %d, wall_h_screen = %d, sky_floor_h = %d\n", count, wall_h_screen, sky_floor_h);
 	y = 0;
+//	printf("colonne = %d, wall_h_screen = %f, sky_floor_h = %f\n", x, wall_h_screen, sky_h);
 	while (y < sky_h)
 	{
 		pars->img[x + y * pars->size_line] = pars->sky_col;
@@ -292,7 +390,7 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 //		printf("y sky = %d", y);
 	}
 //	y = -1;
-	print_wall_texture(wall_h_screen, sky_h, &x, &y, ray, pars);
+	print_wall_texture(wall_h_screen, sky_h, &x, &y, contact, pars);
 	// while (y < wall_h_screen + sky_floor_h / 2)
 	// {
 	// 	pars->img[i] = pars->wall_col;
@@ -313,20 +411,37 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 void modify_img(t_pars *pars)
 {
 	t_ray ray;
-	double angle;
 	int count;
 
-	init_t_ray(&ray);
+	init_t_ray(&ray, (pars->angle - (pars->fov / 2)));
 	count = 0;
-	angle = pars->angle - (pars->fov / 2);
+//	ray.angle = pars->angle - (pars->fov / 2);
 	while (count < pars->screen_w)
 	{
-	//	printf("angle = %f\n", angle);
-		find_wall_contact(&ray, pars, angle / (180 / M_PI));
-	//	printf("colonne = %d, nb_sprite = %d\n", count, ray.nb_sprites);
+//		printf("angle = %f\n", ray.angle);
+		find_wall_contact(&ray, pars);
+		print_col(ray.wall, count, pars);
 	//	printf("colonne = %d, wall.distance = %f\n", count, wall.distance);
-		print_col(&ray, count, pars);
+		if (ray.nb_sprites > 0)
+		{
+		//	printf("colonne = %d, nb_sprite = %d\n", count, ray.nb_sprites);
+			int i = ray.nb_sprites - 1;
+			while (i >= 0)
+			{
+		//		printf("ray.sprite[%d].dist = %f\n", i, ray.sprites[i].distance);
+				i--;
+			}
+
+			i = ray.nb_sprites - 1;
+			while (i >= 0)
+			{
+	//			printf("i = %d\n", i);
+				print_col(ray.sprites[i], count, pars);
+				i--;
+			}
+			free(ray.sprites);
+		}
 		count++;
-		angle += pars->angle_per_pix;
+		ray.angle += pars->angle_per_pix;
 	}
 }

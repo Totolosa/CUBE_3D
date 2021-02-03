@@ -6,19 +6,19 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/27 16:03:14 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/01/29 15:31:24 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 	// CONCAT MUR  Y // SI sin(angle) != 0
-t_xy_cub first_wall_horiz(t_pars *pars, double x_dir, double y_dir)
+t_contact first_wall_horiz(t_pars *pars, double x_dir, double y_dir)
 {
 	double x;
 	int y;
 //	double slope = y_dir / x_dir;
-	t_xy_cub wall_horiz = {-1, -1, -1, 'h'};
+	t_contact wall_horiz = {-1, -1, -1, 'h'};
 	
 	if (y_dir > 0 && pars->pos_y != floor(pars->pos_y))
 		y = (int)pars->pos_y + 1;
@@ -59,11 +59,11 @@ t_xy_cub first_wall_horiz(t_pars *pars, double x_dir, double y_dir)
 	return (wall_horiz);
 }
 
-t_xy_cub first_wall_verti(t_pars *pars, double x_dir, double y_dir)
+t_contact first_wall_verti(t_pars *pars, double x_dir, double y_dir)
 {
 	int x;
 	double y;
-	t_xy_cub wall_verti = {-1, -1, -1, 'v'};
+	t_contact wall_verti = {-1, -1, -1, 'v'};
 	
 	if (x_dir > 0 && pars->pos_x != floor(pars->pos_x))
 		x = (int)pars->pos_x + 1;
@@ -102,15 +102,15 @@ t_xy_cub first_wall_verti(t_pars *pars, double x_dir, double y_dir)
 	return (wall_verti);
 }
 
-t_xy_cub find_wall_contact(t_pars *pars, double angle)
+t_contact find_wall_contact(t_pars *pars, double angle)
 {
 	double distance_horiz = -1;
 	double distance_verti = -1;
 	double x_dir = cos(angle);
 	double y_dir = sin(angle);
-	t_xy_cub first_wall;
-	t_xy_cub wall_horiz;
-	t_xy_cub wall_verti;
+	t_contact first_wall;
+	t_contact wall_horiz;
+	t_contact wall_verti;
 	
 //	printf("angle = %f, sin(angle) = %f, cos(angle) = %f\n", angle * 180/M_PI, y_dir, x_dir);
 	if (fabs(x_dir) != 1)
@@ -158,7 +158,7 @@ t_xy_cub find_wall_contact(t_pars *pars, double angle)
 	return (first_wall);
 }
 
-int print_wall_texture(double wall_h_screen, int sky_h, int *line, t_xy_cub *wall, int *i, t_pars *pars)
+int print_wall_texture(double wall_h_screen, int sky_h, int *line, t_contact *wall, int *i, t_pars *pars)
 {
 	// (void)wall;
 //	(void)sky_h;
@@ -213,7 +213,7 @@ int print_wall_texture(double wall_h_screen, int sky_h, int *line, t_xy_cub *wal
 	return (1);
 }
 
-int print_col(t_xy_cub wall, int i, t_pars *pars)
+int print_col(t_contact wall, int i, t_pars *pars)
 {
 	double wall_h_screen;
 	int line;
@@ -270,7 +270,7 @@ int print_col(t_xy_cub wall, int i, t_pars *pars)
 
 void modify_img(t_pars *pars)
 {
-	t_xy_cub wall;
+	t_contact wall;
 	double angle;
 	int count;
 
