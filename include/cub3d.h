@@ -30,23 +30,6 @@ typedef struct	s_contact
 	char orient;
 }				t_contact;
 
-// typedef struct	s_find_sprite
-// {
-// 	double ar;
-// 	double br;
-// 	double cr;
-// 	double as;
-// 	double bs;
-// 	double cs;
-// 	double xc;
-// 	double yc;
-// 	double xs;
-// 	double ys;
-// 	double vect;
-// 	double len;
-// 	double dist;
-// }				t_find_sprite;
-
 typedef struct	s_sprite
 {
 	double x;

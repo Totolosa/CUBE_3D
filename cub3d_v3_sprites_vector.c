@@ -83,8 +83,9 @@ int first_wall_horiz(t_ray *horiz, t_pars *pars, double x_dir, double y_dir)
 	else 
 		x = pars->moov.x_pos;
 
-	while ((x >= 1 && x < pars->map.map_w && y >= 1 && y < pars->map.map_h) &&
-			((y_dir > 0 && pars->map.map[y][(int)x] != -1) || (y_dir < 0 && pars->map.map[y - 1][(int)x] != -1)))
+	while ((x >= 1 && x < pars->map.map_w && y >= 1 && y < pars->map.map_h)
+		&& ((y_dir > 0 && pars->map.map[y][(int)x] != -1)
+				|| (y_dir < 0 && pars->map.map[y - 1][(int)x] != -1)))
 	{
 		// if ((y_dir > 0 && pars->map[y][(int)x] == 2) || (y_dir < 0 && pars->map[y - 1][(int)x] == 2))
 		// 	add_sprite(x, y, horiz, pars);
@@ -248,6 +249,8 @@ int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_ray
 	{
 	//	printf("x = %d, x_text = %f, y = %d, y_text = %f, wall_h_screen = %f, scale_w = %f, scale_h = %f, pars->wall_text->w = %d\n", *x, x_text, *y, y_text, wall_h_screen, scale_w, scale_h, pars->wall_text->w);
 		pars->scr.img[*x + *y * pars->scr.size_l] = pars->wall.img[(int)x_text + ((int)y_text * pars->wall.size_l)];
+		if (ray->wall.orient == 'n')
+			pars->scr.img[*x + *y * pars->scr.size_l] = pars->wall.img[(int)x_text + ((int)y_text * pars->wall.size_l)];
 	//	pars->img[*x + *y * pars->size_l] = pars->wall_col;
 	//	scale_h += tmp;
 		y_text += scale_h;
