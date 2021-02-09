@@ -1,6 +1,6 @@
 NAME		= cub3D
 
-SRCS		= main.c init_struct.c cub3d_v3_sprites_vector.c
+SRCS		= main.c init_struct.c creat_wind_text.c cub3d_v3_sprites_vector.c
 
 OBJS		= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/05 18:10:34 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 15:35:17 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int show_key_code(int key_code, t_pars *pars)
 	ft_putnbr_fd(key_code, 1);
 	if (key_code == 53)
 	{
-		mlx_destroy_window(pars->screen.mlx_ptr, pars->screen.win_ptr );
+		mlx_destroy_window(pars->scr.mlx, pars->scr.win );
 		free(pars->map.map);
 		exit(0);
 	}
@@ -27,7 +27,7 @@ int show_key_code(int key_code, t_pars *pars)
 		pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 		pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 124)
 	{
@@ -35,39 +35,39 @@ int show_key_code(int key_code, t_pars *pars)
 		pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 		pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 13)
 	{
 		pars->moov.x_pos+= pars->moov.x_dir * pars->moov.speed;
 		pars->moov.y_pos+= pars->moov.y_dir * pars->moov.speed;
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 1)
 	{
 		pars->moov.x_pos-= pars->moov.x_dir * pars->moov.speed;
 		pars->moov.y_pos-= pars->moov.y_dir * pars->moov.speed;
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 0)
 	{
 		pars->moov.x_pos+= (cos((pars->moov.ang- 90) / (180 / M_PI)) * pars->moov.speed);
 		pars->moov.y_pos+= (sin((pars->moov.ang- 90) / (180 / M_PI)) * pars->moov.speed);
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 2)
 	{
 		pars->moov.x_pos+= (cos((pars->moov.ang+ 90) / (180 / M_PI)) * pars->moov.speed);
 		pars->moov.y_pos+= (sin((pars->moov.ang+ 90) / (180 / M_PI)) * pars->moov.speed);
 		modify_img(pars);
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->screen.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->scr.img_ptr, 0, 0);
 	}
 	if (key_code == 17)
 	{
-		mlx_put_image_to_window(pars->screen.mlx_ptr, pars->screen.win_ptr, pars->sprite.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->sprite.img_ptr, 0, 0);
 	}
 	return (0);
 }
@@ -119,8 +119,8 @@ int contouring_sprite(t_pars *pars)
 	{
 		x = -1;
 		while (++x < pars->sprite.h)
-			if (pars->sprite.img[x + y * pars->sprite.size_line] == ref)
-				pars->sprite.img[x + y * pars->sprite.size_line] = 0xff000000;
+			if (pars->sprite.img[x + y * pars->sprite.size_l] == ref)
+				pars->sprite.img[x + y * pars->sprite.size_l] = 0xff000000;
 	}
 	return (1);
 }
@@ -139,17 +139,20 @@ int pars_map(t_pars *pars, char *file)
 	pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 	pars->moov.speed = 0.2;
 	pars->map.map_file = file;
+	pars->scr.w = 956;
+	pars->scr.h = 600;
+
+	if (!(create_all(pars)))
+		return (-1);
 
 	pars->wall_col = 0x00ff0000;
 	pars->floor_col = 0x0000ff00;
 	pars->sky_col = 0x000000ff;
-	pars->screen.fov = 60;
-	pars->screen.screen_w = 956;
-	pars->screen.screen_h = 600;
+	pars->scr.fov = 60;
 	pars->wall_h = 64;
 	pars->player_h = pars->wall_h / 2;
-	pars->moov.ang_pix = pars->screen.fov / (double)pars->screen.screen_w;
-	pars->screen.screen_d = ((double)pars->screen.screen_w / 2) / tan((pars->screen.fov / 2) / (180 / M_PI));
+	pars->moov.ang_pix = pars->scr.fov / (double)pars->scr.w;
+	pars->scr.d = ((double)pars->scr.w / 2) / tan((pars->scr.fov / 2) / (180 / M_PI));
 
 	int fd = 0;
 //	int ret = 1;
@@ -240,7 +243,7 @@ int pars_map(t_pars *pars, char *file)
 	// 	}
 	// }
 	
-//	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, distance screen = %d\n", pars->player_h, pars->angle_per_pix, tan((pars->screen.fov / 2)), pars->screen_h);
+//	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, distance scr = %d\n", pars->player_h, pars->angle_per_pix, tan((pars->scr.fov / 2)), pars->h);
 	return (0);
 }
 
@@ -255,34 +258,13 @@ int main(int argc, char **argv)
 	init_pars(&pars);
 	if ((pars_map(&pars, argv[1]) == -1))
 		exit (0);
-	pars.screen.mlx_ptr = mlx_init();
-	pars.screen.win_ptr = mlx_new_window(pars.screen.mlx_ptr, pars.screen.screen_w, pars.screen.screen_h, "CUB3D");
-	pars.screen.img_ptr = mlx_new_image(pars.screen.mlx_ptr, pars.screen.screen_w, pars.screen.screen_h);
-	pars.screen.img = (int*)mlx_get_data_addr(pars.screen.img_ptr, &pars.screen.bpp, &pars.screen.size_line, &pars.screen.endian);
-	pars.screen.size_line /= 4;
-	printf("pars.screen_w = %d, pars.screen_h = %d, pars.size_line = %d\n", pars.screen.screen_w, pars.screen.screen_h, pars.screen.size_line);
-//	pars.wall_text.img = (int*)mlx_xpm_file_to_image(pars->screen.mlx_ptr, "./img_stone_wall.xpm", &pars.wall_text.w, &pars.wall_text.h);
-	pars.wall.img_ptr = mlx_xpm_file_to_image(pars.screen.mlx_ptr, "./pics/mur_briques.xpm", &pars.wall.w, &pars.wall.h);
-	pars.wall.img = (int*)mlx_get_data_addr(pars.wall.img_ptr, &pars.wall.bpp, &pars.wall.size_line, &pars.wall.endian);
-	pars.wall.size_line /= 4;
-	pars.sprite.img_ptr = mlx_xpm_file_to_image(pars.screen.mlx_ptr, "./pics/pillar.xpm", &pars.sprite.w, &pars.sprite.h);
-	pars.sprite.img = (int*)mlx_get_data_addr(pars.sprite.img_ptr, &pars.sprite.bpp, &pars.sprite.size_line, &pars.sprite.endian);
-	pars.sprite.size_line /= 4;
+	printf("pars.w = %d, pars.h = %d, pars.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.size_l);
 	contouring_sprite(&pars);
-//	printf("pars.wall_text->w = %d, pars.wall_text->h = %d, pars.wall_text->size_line = %d\n", pars.wall_text->w, pars.wall_text->h, pars.wall_text->size_line);
-	// img_wall_ptr = mlx_xpm_file_to_image(pars->screen.mlx_ptr, "img_stone_wall.xpm", &width, &height);
-	// img_wall = mlx_get_data_addr(img_wall_ptr, &bpp, &size_line, &endian);
 	modify_img(&pars);
-	// while (++j <= 50)
-	// {
-	// 	i = 9;
-	// 	while (++i <= 50)
-	// 		((int*)img)[(i) + (j * size_line / 4)] = 0x00ffffff;
-	// }
-	mlx_put_image_to_window(pars.screen.mlx_ptr, pars.screen.win_ptr, pars.screen.img_ptr, 0, 0);
-	mlx_hook(pars.screen.win_ptr, 02, 1L<<0, show_key_code, &pars);
-//	mlx_mouse_hook (pars.win_ptr, show_key_code, &pars);
-	//mlx_pixel_put(pars->screen.mlx_ptr, win_ptr, 10, 10, (255*255*255));
-	mlx_loop(pars.screen.mlx_ptr);
+	mlx_put_image_to_window(pars.scr.mlx, pars.scr.win, pars.scr.img_ptr, 0, 0);
+	mlx_hook(pars.scr.win, 02, 1L<<0, show_key_code, &pars);
+//	mlx_mouse_hook (pars.win, show_key_code, &pars);
+	//mlx_pixel_put(pars->scr.mlx, win, 10, 10, (255*255*255));
+	mlx_loop(pars.scr.mlx);
 	return (0);
 }

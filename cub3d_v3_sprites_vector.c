@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/05 18:05:05 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 15:10:03 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int first_wall_horiz(t_ray *horiz, t_pars *pars, double x_dir, double y_dir)
 {
 	double x;
 	int y;
-	horiz->wall.orient = 'h';
+	if (pars->moov.y_dir > 0)
+		horiz->wall.orient = 's';
+	else 
+		horiz->wall.orient = 'n';
 	
 	if (y_dir > 0 && pars->moov.y_pos != floor(pars->moov.y_pos))
 		y = (int)pars->moov.y_pos + 1;
@@ -106,7 +109,10 @@ int first_wall_verti(t_ray *verti, t_pars *pars, double x_dir, double y_dir)
 {
 	int x;
 	double y;
-	verti->wall.orient = 'v';
+	if (pars->moov.x_dir > 0)
+		verti->wall.orient = 'e';
+	else 
+		verti->wall.orient = 'w';
 	
 	if (x_dir > 0 && pars->moov.x_pos != floor(pars->moov.x_pos))
 		x = (int)pars->moov.x_pos + 1;
@@ -223,29 +229,29 @@ int print_wall_texture(double wall_h_screen, double sky_h, int *x, int *y, t_ray
 	double y_text = 0;
 
 	scale_h = (double)pars->wall.h / (double)wall_h_screen;
-	if (ray->wall.orient == 'h')
+	if (ray->wall.orient == 'n' || ray->wall.orient == 's')
 		scale_w = modf(ray->wall.x, &scale_w);
-	else if (ray->wall.orient == 'v')
+	else if (ray->wall.orient == 'w' || ray->wall.orient == 'e')
 		scale_w = modf(ray->wall.y, &scale_w);
 	x_text = scale_w * (double)pars->wall.w;
 
-	if (wall_h_screen > pars->screen.screen_h)
+	if (wall_h_screen > pars->scr.h)
 	{
-		y_text = ((double)wall_h_screen - (double)pars->screen.screen_h) / 2 / (double)wall_h_screen * (double)pars->wall.h;
-		wall_h_screen = pars->screen.screen_h;
+		y_text = ((double)wall_h_screen - (double)pars->scr.h) / 2 / (double)wall_h_screen * (double)pars->wall.h;
+		wall_h_screen = pars->scr.h;
 	}
 //	printf("wall->orient = %c, scale_w = %f, j = %d, scale_h = %f\n", wall->orient, scale_w ,j ,scale_h);
-//	printf("x = %d, x_text = %f, y = %d, y_text = %f, wall_h_screen = %f, sky_h = %f, scale_w = %f, scale_h = %f, pars->screen_h = %d, pars->wall_text->size_line = %d, pos_x = %f, pos_y = %f, angle = %f\n", *x, x_text, *y, y_text, wall_h_screen, sky_h, scale_w, scale_h, pars->wall_text->h, pars->wall_text->size_line, pars->moov.x_pos, pars->moov.y_pos, pars->angle);
+//	printf("x = %d, x_text = %f, y = %d, y_text = %f, wall_h_screen = %f, sky_h = %f, scale_w = %f, scale_h = %f, pars->h = %d, pars->wall_text->size_l = %d, pos_x = %f, pos_y = %f, angle = %f\n", *x, x_text, *y, y_text, wall_h_screen, sky_h, scale_w, scale_h, pars->wall_text->h, pars->wall_text->size_l, pars->moov.x_pos, pars->moov.y_pos, pars->angle);
 
 
 	while (*y < wall_h_screen + sky_h)
 	{
 	//	printf("x = %d, x_text = %f, y = %d, y_text = %f, wall_h_screen = %f, scale_w = %f, scale_h = %f, pars->wall_text->w = %d\n", *x, x_text, *y, y_text, wall_h_screen, scale_w, scale_h, pars->wall_text->w);
-		pars->screen.img[*x + *y * pars->screen.size_line] = pars->wall.img[(int)x_text + ((int)y_text * pars->wall.size_line)];
-	//	pars->img[*x + *y * pars->size_line] = pars->wall_col;
+		pars->scr.img[*x + *y * pars->scr.size_l] = pars->wall.img[(int)x_text + ((int)y_text * pars->wall.size_l)];
+	//	pars->img[*x + *y * pars->size_l] = pars->wall_col;
 	//	scale_h += tmp;
 		y_text += scale_h;
-	//	j = tmp2 + ((int)scale_h * scale2 * (pars->wall_text->size_line));
+	//	j = tmp2 + ((int)scale_h * scale2 * (pars->wall_text->size_l));
 		(*y)++;
 	//	printf("line wall = %d, i = %d\n", *line, *i);
 	}
@@ -260,13 +266,13 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 	int y;
 //	int floor_h;
 
-	wall_h_screen = (double)pars->screen.screen_d / ray->wall.distance;
-	// if ((wall_h_screen = (double)pars->screen_d / wall.distance) % 2 == 1)
+	wall_h_screen = (double)pars->scr.d / ray->wall.distance;
+	// if ((wall_h_screen = (double)pars->d / wall.distance) % 2 == 1)
 	// 	wall_h_screen += 0;
-	if (wall_h_screen <= pars->screen.screen_h)
+	if (wall_h_screen <= pars->scr.h)
 	{
-		sky_h = ((double)pars->screen.screen_h - wall_h_screen) / 2;
-		// if ((pars->screen_h - wall_h_screen) % 2 == 0)
+		sky_h = ((double)pars->scr.h - wall_h_screen) / 2;
+		// if ((pars->h - wall_h_screen) % 2 == 0)
 		// 	floor_h = sky_h;
 		// else 
 		// 	floor_h = sky_h + 1;
@@ -275,15 +281,15 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 	{
 		sky_h = 0;
 //		floor_h = 0;
-	//	wall_h_screen = pars->screen_h;
+	//	wall_h_screen = pars->h;
 	} 
 //	printf("wall_h_screen + sky_floor_h / 2 = %d, sky_floor_h / 2 = %d\n", wall_h_screen + sky_floor_h / 2, sky_floor_h / 2);
-//	printf("wall_d = %f, screen_d = %d\n", wall.distance, pars->screen_d);
+//	printf("wall_d = %f, d = %d\n", wall.distance, pars->d);
 //	printf("colonne = %d, wall_h_screen = %d, sky_floor_h = %d\n", count, wall_h_screen, sky_floor_h);
 	y = 0;
 	while (y < sky_h)
 	{
-		pars->screen.img[x + y * pars->screen.size_line] = pars->sky_col;
+		pars->scr.img[x + y * pars->scr.size_l] = pars->sky_col;
 		y++;
 //		printf("y sky = %d", y);
 	}
@@ -292,14 +298,14 @@ int print_col(t_ray *ray, int x, t_pars *pars)
 	// while (y < wall_h_screen + sky_floor_h / 2)
 	// {
 	// 	pars->img[i] = pars->wall_col;
-	// 	i += pars->screen_w;
+	// 	i += pars->w;
 	// 	y++;
 //		printf("y wall = %d, ", y);
 	// }
 //	y += wall_h_screen;
-	while (y < pars->screen.screen_h)
+	while (y < pars->scr.h)
 	{
-		pars->screen.img[x + y * pars->screen.size_line] = pars->floor_col;
+		pars->scr.img[x + y * pars->scr.size_l] = pars->floor_col;
 		y++;
 	//	printf("y floor = %d, ", y);
 	}
@@ -314,8 +320,8 @@ void modify_img(t_pars *pars)
 
 	init_t_ray(&ray);
 	i = 0;
-	angle = pars->moov.ang- (pars->screen.fov / 2);
-	while (i < pars->screen.screen_w)
+	angle = pars->moov.ang- (pars->scr.fov / 2);
+	while (i < pars->scr.w)
 	{
 	//	printf("angle = %f\n", angle);
 		find_wall_contact(&ray, pars, angle / (180 / M_PI));
@@ -323,7 +329,7 @@ void modify_img(t_pars *pars)
 	//	printf("colonne = %d, wall.distance = %f\n", count, wall.distance);
 		print_col(&ray, i, pars);
 		i++;
-		angle = pars->moov.ang- (pars->screen.fov / 2) + pars->moov.ang_pix * (i + 1);
+		angle = pars->moov.ang- (pars->scr.fov / 2) + pars->moov.ang_pix * (i + 1);
 	}
 	if (pars->nb_spr > 0)
 	{

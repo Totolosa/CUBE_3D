@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/05 18:10:02 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 15:33:20 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct	s_text
 	char *path;
 	void *img_ptr;
 	int *img;
-	int size_line;
+	int size_l;
 	int w;
 	int h;
 	int endian;
@@ -78,15 +78,15 @@ typedef struct	s_text
 
 typedef struct	s_screen
 {
-	void *mlx_ptr;
-	void *win_ptr;
-	int screen_w;
-	int screen_h;
-	int screen_d;
+	void *mlx;
+	void *win;
+	int w;
+	int h;
+	int d;
 	double fov;
 	void *img_ptr;
 	int *img;
-	int size_line;
+	int size_l;
 	int endian;
 	int bpp;
 }				t_screen;
@@ -121,7 +121,7 @@ typedef struct	s_pars
 	// -- MANAGE --
 	t_free *free;
 	// -- SCREEN --
-	t_screen screen;
+	t_screen scr;
 	// -- MAP --
 	t_map map;
 	// -- MOOVEMENT --
@@ -138,14 +138,15 @@ typedef struct	s_pars
 	int wall_col;
 	t_text wall;
 	t_text sprite;
-	// t_text *wall_north_text;
-	// t_text *wall_east_text;
-	// t_text *wall_west_text;
-	// t_text *wall_south_text;
+	t_text text_n;
+	t_text text_s;
+	t_text text_w;
+	t_text text_e;
 }				t_pars;
 
 void modify_img(t_pars *pars);
 void init_pars(t_pars *pars);
 void init_t_ray(t_ray *ray);
+int	create_all(t_pars *pars);
 
 #endif
