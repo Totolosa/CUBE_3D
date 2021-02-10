@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/09 15:35:17 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 15:29:08 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int contouring_sprite(t_pars *pars)
 	{
 		x = -1;
 		while (++x < pars->sprite.h)
-			if (pars->sprite.img[x + y * pars->sprite.size_l] == ref)
-				pars->sprite.img[x + y * pars->sprite.size_l] = 0xff000000;
+			if (pars->sprite.img[x + y * pars->sprite.s_l] == ref)
+				pars->sprite.img[x + y * pars->sprite.s_l] = 0xff000000;
 	}
 	return (1);
 }
@@ -134,7 +134,7 @@ int pars_map(t_pars *pars, char *file)
 //	pars->moov.x_pos= 10.498097;
 	pars->moov.y_pos = 3;
 //	pars->moov.y_pos= 5.456422;
-	pars->moov.ang = 45;
+	pars->moov.ang = 90;
 	pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 	pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 	pars->moov.speed = 0.2;
@@ -243,7 +243,7 @@ int pars_map(t_pars *pars, char *file)
 	// 	}
 	// }
 	
-//	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, distance scr = %d\n", pars->player_h, pars->angle_per_pix, tan((pars->scr.fov / 2)), pars->h);
+//	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, dst scr = %d\n", pars->player_h, pars->angle_per_pix, tan((pars->scr.fov / 2)), pars->h);
 	return (0);
 }
 
@@ -258,8 +258,8 @@ int main(int argc, char **argv)
 	init_pars(&pars);
 	if ((pars_map(&pars, argv[1]) == -1))
 		exit (0);
-	printf("pars.w = %d, pars.h = %d, pars.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.size_l);
-	contouring_sprite(&pars);
+	printf("pars.w = %d, pars.h = %d, pars.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.s_l);
+//	contouring_sprite(&pars);
 	modify_img(&pars);
 	mlx_put_image_to_window(pars.scr.mlx, pars.scr.win, pars.scr.img_ptr, 0, 0);
 	mlx_hook(pars.scr.win, 02, 1L<<0, show_key_code, &pars);

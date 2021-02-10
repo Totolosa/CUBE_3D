@@ -6,29 +6,24 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 16:47:58 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/09 15:09:26 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 18:08:32 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_t_ray(t_ray *ray)
+void init_t_ray(double angle, t_ray *ray)
 {
-	// t_contact wall;
-	// t_contact **sprites;
-	
-	// wall = NULL;
-	// sprites = NULL;
 	ray->wall.x = -1;
 	ray->wall.y = -1;
-	ray->wall.distance = INT_MAX;
+	ray->wall.dst = INT_MAX;
 	ray->wall.orient = 0;
-	// ray->sprites = NULL;
-	// ray->nb_sprites = 0;
-	
-	// ray->wall = wall;
-	// ray->sprites = sprites;
-	// ray->nb_sprites = 0;
+	ray->angle = angle;
+	ray->x_dir = cos(angle);
+	ray->y_dir = sin(angle);
+	ray->w_scr_h = 0;
+	ray->sky_h = 0;
+	ray->line = 0;
 }
 
 void init_moov(t_pars *pars)
@@ -52,7 +47,7 @@ void init_screen(t_pars *pars)
 	pars->scr.fov = 0;
 	pars->scr.img_ptr = 0;
 	pars->scr.img = 0;
-	pars->scr.size_l = 0;
+	pars->scr.s_l = 0;
 }
 
 void init_map(t_pars *pars)
@@ -68,7 +63,7 @@ void init_text(t_pars *pars)
 	pars->wall.path = 0;
 	pars->wall.img_ptr = 0;
 	pars->wall.img = 0;
-	pars->wall.size_l = 0;
+	pars->wall.s_l = 0;
 	pars->wall.w = 0;
 	pars->wall.h = 0;
 	pars->wall.endian = 0;
@@ -77,47 +72,47 @@ void init_text(t_pars *pars)
 	pars->sprite.path = 0;
 	pars->sprite.img_ptr = 0;
 	pars->sprite.img = 0;
-	pars->sprite.size_l = 0;
+	pars->sprite.s_l = 0;
 	pars->sprite.w = 0;
 	pars->sprite.h = 0;
 	pars->sprite.endian = 0;
 	pars->sprite.bpp = 0;
 
-	pars->text_n.path = 0;
-	pars->text_n.img_ptr = 0;
-	pars->text_n.img = 0;
-	pars->text_n.size_l = 0;
-	pars->text_n.w = 0;
-	pars->text_n.h = 0;
-	pars->text_n.endian = 0;
-	pars->text_n.bpp = 0;
+	pars->no.path = 0;
+	pars->no.img_ptr = 0;
+	pars->no.img = 0;
+	pars->no.s_l = 0;
+	pars->no.w = 0;
+	pars->no.h = 0;
+	pars->no.endian = 0;
+	pars->no.bpp = 0;
 
-	pars->text_s.path = 0;
-	pars->text_s.img_ptr = 0;
-	pars->text_s.img = 0;
-	pars->text_s.size_l = 0;
-	pars->text_s.w = 0;
-	pars->text_s.h = 0;
-	pars->text_s.endian = 0;
-	pars->text_s.bpp = 0;
+	pars->so.path = 0;
+	pars->so.img_ptr = 0;
+	pars->so.img = 0;
+	pars->so.s_l = 0;
+	pars->so.w = 0;
+	pars->so.h = 0;
+	pars->so.endian = 0;
+	pars->so.bpp = 0;
 
-	pars->text_w.path = 0;
-	pars->text_w.img_ptr = 0;
-	pars->text_w.img = 0;
-	pars->text_w.size_l = 0;
-	pars->text_w.w = 0;
-	pars->text_w.h = 0;
-	pars->text_w.endian = 0;
-	pars->text_w.bpp = 0;
+	pars->we.path = 0;
+	pars->we.img_ptr = 0;
+	pars->we.img = 0;
+	pars->we.s_l = 0;
+	pars->we.w = 0;
+	pars->we.h = 0;
+	pars->we.endian = 0;
+	pars->we.bpp = 0;
 
-	pars->text_e.path = 0;
-	pars->text_e.img_ptr = 0;
-	pars->text_e.img = 0;
-	pars->text_e.size_l = 0;
-	pars->text_e.w = 0;
-	pars->text_e.h = 0;
-	pars->text_e.endian = 0;
-	pars->text_e.bpp = 0;
+	pars->ea.path = 0;
+	pars->ea.img_ptr = 0;
+	pars->ea.img = 0;
+	pars->ea.s_l = 0;
+	pars->ea.w = 0;
+	pars->ea.h = 0;
+	pars->ea.endian = 0;
+	pars->ea.bpp = 0;
 }
 
 void init_pars(t_pars *pars)

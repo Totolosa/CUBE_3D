@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/09 15:45:12 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 18:08:32 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,50 +24,50 @@ int	create_wind(t_pars *p)
 	if (!p->scr.img_ptr)
 		return (0);
 	p->scr.img = (int*)mlx_get_data_addr(p->scr.img_ptr,
-			&p->scr.bpp, &p->scr.size_l, &p->scr.endian);
+			&p->scr.bpp, &p->scr.s_l, &p->scr.endian);
 	if (!p->scr.img)
 		return (0);
-	p->scr.size_l *= 0.25;
+	p->scr.s_l *= 0.25;
 	return (1);
 }
 
 int	create_text_horiz(t_pars *p)
 {
-	p->text_n.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
-			"./pics/greystone.xpm", &p->text_n.w, &p->text_n.h);
-	if (!p->text_n.img_ptr)
+	p->no.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/greystone.xpm", &p->no.w, &p->no.h);
+	if (!p->no.img_ptr)
 		return (0);
-	p->text_n.img = (int*)mlx_get_data_addr(p->text_n.img_ptr,
-			&p->text_n.bpp, &p->text_n.size_l, &p->text_n.endian);
-	if (!p->text_n.img)
+	p->no.img = (int*)mlx_get_data_addr(p->no.img_ptr,
+			&p->no.bpp, &p->no.s_l, &p->no.endian);
+	if (!p->no.img)
 		return (0);
-	p->text_n.size_l /= 4;
-	if (!(p->text_s.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/redbrick.xpm", &p->text_s.w, &p->text_s.h)))
+	p->no.s_l /= 4;
+	if (!(p->so.img_ptr = mlx_xpm_file_to_image(\
+	p->scr.mlx, "./pics/redbrick.xpm", &p->so.w, &p->so.h)))
 		return (0);
-	if (!(p->text_s.img = (int*)mlx_get_data_addr(\
-	p->text_s.img_ptr, &p->text_s.bpp, &p->text_s.size_l, &p->text_s.endian)))
+	if (!(p->so.img = (int*)mlx_get_data_addr(\
+	p->so.img_ptr, &p->so.bpp, &p->so.s_l, &p->so.endian)))
 		return (0);
-	p->text_s.size_l /= 4;
+	p->so.s_l /= 4;
 	return (1);
 }
 
 int	create_text_verti(t_pars *p)
 {
-	if (!(p->text_w.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/wood.xpm", &p->text_w.w, &p->text_w.h)))
+	if (!(p->we.img_ptr = mlx_xpm_file_to_image(\
+	p->scr.mlx, "./pics/wood.xpm", &p->we.w, &p->we.h)))
 		return (0);
-	if (!(p->text_w.img = (int*)mlx_get_data_addr(\
-	p->text_w.img_ptr, &p->text_w.bpp, &p->text_w.size_l, &p->text_w.endian)))
+	if (!(p->we.img = (int*)mlx_get_data_addr(\
+	p->we.img_ptr, &p->we.bpp, &p->we.s_l, &p->we.endian)))
 		return (0);
-	p->text_w.size_l /= 4;
-	if (!(p->text_e.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/colorstone.xpm", &p->text_e.w, &p->text_e.h)))
+	p->we.s_l /= 4;
+	if (!(p->ea.img_ptr = mlx_xpm_file_to_image(\
+	p->scr.mlx, "./pics/colorstone.xpm", &p->ea.w, &p->ea.h)))
 		return (0);
-	if (!(p->text_e.img = (int*)mlx_get_data_addr(\
-	p->text_e.img_ptr, &p->text_e.bpp, &p->text_e.size_l, &p->text_e.endian)))
+	if (!(p->ea.img = (int*)mlx_get_data_addr(\
+	p->ea.img_ptr, &p->ea.bpp, &p->ea.s_l, &p->ea.endian)))
 		return (0);
-	p->text_e.size_l /= 4;
+	p->ea.s_l /= 4;
 	return (1);
 }
 
@@ -77,16 +77,16 @@ int	create_text_sprite(t_pars *p)
 	p->scr.mlx, "./pics/mur_briques.xpm", &p->wall.w, &p->wall.h)))
 		return (0);
 	if (!(p->wall.img = (int*)mlx_get_data_addr(\
-	p->wall.img_ptr, &p->wall.bpp, &p->wall.size_l, &p->wall.endian)))
+	p->wall.img_ptr, &p->wall.bpp, &p->wall.s_l, &p->wall.endian)))
 		return (0);
-	p->wall.size_l /= 4;
+	p->wall.s_l /= 4;
 	if (!(p->sprite.img_ptr = mlx_xpm_file_to_image(\
 	p->scr.mlx, "./pics/pillar.xpm", &p->sprite.w, &p->sprite.h)))
 		return (0);
 	if (!(p->sprite.img = (int*)mlx_get_data_addr(\
-	p->sprite.img_ptr, &p->sprite.bpp, &p->sprite.size_l, &p->sprite.endian)))
+	p->sprite.img_ptr, &p->sprite.bpp, &p->sprite.s_l, &p->sprite.endian)))
 		return (0);
-	p->sprite.size_l /= 4;
+	p->sprite.s_l /= 4;
 	return (1);
 }
 
