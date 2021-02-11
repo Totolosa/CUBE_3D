@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 12:40:00 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:10:50 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ typedef struct	s_sprite
 {
 	double x;
 	double y;
-	double v_x;
-	double v_y;
+	double x_dif;
+	double y_dif;
+	double v_dir;
+	double v_per;
 	double dst;
 }				t_sprite;
 
@@ -125,7 +127,7 @@ typedef struct	s_pars
 	// -- COLORS / TEXTURES
 	int sky_col;
 	int floor_col;
-	t_text sprite;
+	t_text spr_text;
 	t_text no;
 	t_text so;
 	t_text we;

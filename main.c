@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 12:22:23 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 17:50:52 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int show_key_code(int key_code, t_pars *pars)
 	}
 	if (key_code == 17)
 	{
-		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->sprite.img_ptr, 0, 0);
+		mlx_put_image_to_window(pars->scr.mlx, pars->scr.win, pars->spr_text.img_ptr, 0, 0);
 	}
 	return (0);
 }
@@ -91,14 +91,17 @@ t_sprite *add_sprite(int y, int x, t_pars *pars)
 	t_sprite *new;
 	int i;
 	
+	printf("sprite %d\n", pars->nb_spr+1);
 	new = ft_alloc(sizeof(t_sprite) * (pars->nb_spr + 1), pars);
 	i = -1;
 	while (++i < pars->nb_spr)
 		new[i] = pars->spr[i];
 	new[i].x = (double)x + 0.5;
 	new[i].y = (double)y + 0.5;
-	new[i].v_x = 0;
-	new[i].v_y = 0;
+	new[i].x_dif = 0;
+	new[i].y_dif = 0;
+	new[i].v_dir = 0;
+	new[i].v_per = 0;
 	new[i].dst = 0;
 	free(pars->spr);
 	pars->nb_spr++;
@@ -112,13 +115,13 @@ int contouring_sprite(t_pars *pars)
 	int y;
 	
 	y = -1;
-	ref = pars->sprite.img[0];
-	while (++y < pars->sprite.h)
+	ref = pars->spr_text.img[0];
+	while (++y < pars->spr_text.h)
 	{
 		x = -1;
-		while (++x < pars->sprite.h)
-			if (pars->sprite.img[x + y * pars->sprite.s_l] == ref)
-				pars->sprite.img[x + y * pars->sprite.s_l] = 0xff000000;
+		while (++x < pars->spr_text.h)
+			if (pars->spr_text.img[x + y * pars->spr_text.s_l] == ref)
+				pars->spr_text.img[x + y * pars->spr_text.s_l] = 0xff000000;
 	}
 	return (1);
 }
@@ -128,16 +131,16 @@ int pars_map(t_pars *pars, char *file)
 	int i = -1, j = -1;
 	pars->map.map_w = 0;
 	pars->map.map_h = 1;
-	pars->moov.x_pos = 3;
+	pars->moov.x_pos = 4;
 //	pars->moov.x_pos= 10.498097;
-	pars->moov.y_pos = 3;
+	pars->moov.y_pos = 4.5;
 //	pars->moov.y_pos= 5.456422;
-	pars->moov.ang = 90;
+	pars->moov.ang = -90;
 	pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 	pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 	pars->moov.speed = 0.2;
 	pars->map.map_file = file;
-	pars->scr.w = 956;
+	pars->scr.w = 960;
 	pars->scr.h = 600;
 
 	if (!(create_all(pars)))
@@ -176,9 +179,13 @@ int pars_map(t_pars *pars, char *file)
 	close(fd);
 //	printf("map_w = %d, map_h = %d\n", pars->map_w, pars->map_h);
 
+	printf("map[y]\n");
 	pars->map.map = ft_alloc(sizeof(int*) * pars->map.map_h, pars);
 	while (++i < pars->map.map_h)
+	{
+		printf("map[][x]\n");
 		pars->map.map[i] = ft_alloc(sizeof(int) * pars->map.map_w, pars);
+	}
 	set_map(pars, -1);
 	
 	i = 0;

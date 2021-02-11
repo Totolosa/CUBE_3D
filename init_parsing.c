@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 12:13:32 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:25:33 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void	init_map(t_pars *pars)
 
 int	init_pars(t_pars *pars)
 {
-	pars->free = ft_alloc(sizeof(t_list), pars);
-	pars->free->content = 0;
-	pars->free->next = 0;
+	pars->free = NULL;
+	// pars->free = ft_alloc(sizeof(t_list), pars);
+	// pars->free->content = 0;
+	// pars->free->next = 0;
 	init_moov(pars);
 	init_screen(pars);
 	init_map(pars);

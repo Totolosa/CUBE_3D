@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 12:38:13 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 17:49:12 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ int calcul_distance_sprite(t_pars *pars)
 	i = -1;
 	while (++i < pars->nb_spr)
 	{
-		pars->spr[i].v_x = pars->spr[i].x - pars->moov.x_pos;
-		pars->spr[i].v_x = pars->spr[i].y - pars->moov.y_pos;
-//		pars->spr[i].dst = pars->spr[i]v_x * cos()
+		pars->spr[i].x_dif = pars->spr[i].x - pars->moov.x_pos;
+		pars->spr[i].y_dif = pars->spr[i].y - pars->moov.y_pos;
+		pars->spr[i].v_dir = pars->spr[i].x_dif * pars->moov.x_dir
+			+ pars->spr[i].y_dif * pars->moov.y_dir;
+		pars->spr[i].v_per = pars->spr[i].x_dif * (-pars->moov.y_dir)
+			+ pars->spr[i].y_dif * pars->moov.x_dir;
+		pars->spr[i].dst = sqrt(pow(pars->spr[i].v_dir, 2)
+			+ pow(pars->spr[i].v_per, 2));
+		printf("sprite %d : v_dir = %f, v_per = %f, v_dst = %f\n", i+1, pars->spr[i].v_dir, pars->spr[i].v_per, pars->spr[i].dst);
 	}
 	return (1);
 }

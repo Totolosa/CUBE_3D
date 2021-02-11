@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 08:36:52 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:16:18 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,15 @@ int	create_text_verti(t_pars *p)
 
 int	create_text_sprite(t_pars *p)
 {
-	p->sprite.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
-			"./pics/pillar.xpm", &p->sprite.w, &p->sprite.h);
-	if (!p->sprite.img_ptr)
+	p->spr_text.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/pillar.xpm", &p->spr_text.w, &p->spr_text.h);
+	if (!p->spr_text.img_ptr)
 		return (0);
-	p->sprite.img = (int*)mlx_get_data_addr(p->sprite.img_ptr,
-			&p->sprite.bpp, &p->sprite.s_l, &p->sprite.endian);
-	if (!p->sprite.img)
+	p->spr_text.img = (int*)mlx_get_data_addr(p->spr_text.img_ptr,
+			&p->spr_text.bpp, &p->spr_text.s_l, &p->spr_text.endian);
+	if (!p->spr_text.img)
 		return (0);
-	p->sprite.s_l /= 4;
+	p->spr_text.s_l /= 4;
 	return (1);
 }
 

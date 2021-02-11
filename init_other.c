@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 10:42:09 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 12:41:54 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:15:41 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	init_t_ray(double angle, t_ray *ray)
 	ray->line = 0;
 }
 
-void	init_new_sprite(t_sprite *sprite)
-{
-	sprite->x = 0;
-	sprite->y = 0;
-	sprite->v_x = 0;
-	sprite->v_y = 0;
-	sprite->dst = 0;
-}
+// void	init_new_sprite(t_sprite *sprite)
+// {
+// 	sprite->x = 0;
+// 	sprite->y = 0;
+// 	sprite->v_x = 0;
+// 	sprite->v_y = 0;
+// 	sprite->dst = 0;
+// }

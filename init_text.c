@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 16:47:58 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 10:44:08 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:14:39 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	init_text(t_pars *pars)
 {
 	init_text_horiz(pars);
 	init_text_verti(pars);
-	pars->sprite.path = 0;
-	pars->sprite.img_ptr = 0;
-	pars->sprite.img = 0;
-	pars->sprite.s_l = 0;
-	pars->sprite.w = 0;
-	pars->sprite.h = 0;
-	pars->sprite.endian = 0;
-	pars->sprite.bpp = 0;
+	pars->spr_text.path = 0;
+	pars->spr_text.img_ptr = 0;
+	pars->spr_text.img = 0;
+	pars->spr_text.s_l = 0;
+	pars->spr_text.w = 0;
+	pars->spr_text.h = 0;
+	pars->spr_text.endian = 0;
+	pars->spr_text.bpp = 0;
 }

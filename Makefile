@@ -31,18 +31,18 @@ MINILIBX	= minilibx_mms
 COMP		= $(LIBFT)/libft.a libmlx.dylib
 #COMP		= $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 
-all:		$(NAME)
+all:		 comp $(NAME)
 
-$(NAME): 	$(COMP) $(OBJS)
+$(NAME): 	$(OBJS)
 			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
 #			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(FRAMEWORK) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
 
-$(COMP):
+comp:
 			make -C $(LIBFT)
 			make -C $(MINILIBX)
-			cp minilibx_mms/libmlx.dylib .
+#			cp minilibx_mms/libmlx.dylib .
 
-%.o:		%.c $(COMP) include/cub3d.h
+%.o:		%.c $(COMP) include/cub3d.h 
 			$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
