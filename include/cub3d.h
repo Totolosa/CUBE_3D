@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/10 18:07:41 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:40:00 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct	s_ray
 	double angle;
 	double x_dir;
 	double y_dir;
+	double x_dir_per;
+	double y_dir_per;
 	double w_scr_h;
 	double sky_h;
 	int line;
@@ -54,8 +56,8 @@ typedef struct	s_print_text
 {
 	double	scale_h;
 	double	scale_w;
-	double	x_text;
-	double	y_text;
+	double	x;
+	double	y;
 }				t_print_text;
 
 typedef struct	s_text
@@ -104,16 +106,10 @@ typedef struct	s_map
 	int map_h;
 }				t_map;
 
-typedef struct	s_free
-{
-	void *content;
-	struct s_free *next;
-}				t_free;
-
 typedef struct	s_pars
 {
 	// -- MANAGE --
-	t_free *free;
+	t_list *free;
 	// -- SCREEN --
 	t_screen scr;
 	// -- MAP --
@@ -129,8 +125,6 @@ typedef struct	s_pars
 	// -- COLORS / TEXTURES
 	int sky_col;
 	int floor_col;
-	int wall_col;
-	t_text wall;
 	t_text sprite;
 	t_text no;
 	t_text so;
@@ -140,7 +134,7 @@ typedef struct	s_pars
 
 void modify_img(t_pars *pars);
 
-void init_pars(t_pars *pars);
+int init_pars(t_pars *pars);
 void init_t_ray(double angle, t_ray *ray);
 int	create_all(t_pars *pars);
 
@@ -150,5 +144,10 @@ int continue_ray_verti(int x, double y, t_ray *verti, t_pars *pars);
 int continue_ray_horiz(double x, int y, t_ray *horiz, t_pars *pars);
 
 int print_wall_col(t_ray *ray, int x, t_pars *pars);
+void init_print_text(t_print_text *text);
+
+void init_new_sprite(t_sprite *sprite);
+
+void *ft_alloc(unsigned long size, t_pars *pars);
 
 #endif

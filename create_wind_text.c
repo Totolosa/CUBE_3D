@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/10 18:08:32 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 08:36:52 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int	create_text_horiz(t_pars *p)
 	if (!p->no.img)
 		return (0);
 	p->no.s_l /= 4;
-	if (!(p->so.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/redbrick.xpm", &p->so.w, &p->so.h)))
+	p->so.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/redbrick.xpm", &p->so.w, &p->so.h);
+	if (!p->so.img_ptr)
 		return (0);
-	if (!(p->so.img = (int*)mlx_get_data_addr(\
-	p->so.img_ptr, &p->so.bpp, &p->so.s_l, &p->so.endian)))
+	p->so.img = (int*)mlx_get_data_addr(p->so.img_ptr,
+			&p->so.bpp, &p->so.s_l, &p->so.endian);
+	if (!p->so.img)
 		return (0);
 	p->so.s_l /= 4;
 	return (1);
@@ -54,18 +56,22 @@ int	create_text_horiz(t_pars *p)
 
 int	create_text_verti(t_pars *p)
 {
-	if (!(p->we.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/wood.xpm", &p->we.w, &p->we.h)))
+	p->we.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/wood.xpm", &p->we.w, &p->we.h);
+	if (!p->we.img_ptr)
 		return (0);
-	if (!(p->we.img = (int*)mlx_get_data_addr(\
-	p->we.img_ptr, &p->we.bpp, &p->we.s_l, &p->we.endian)))
+	p->we.img = (int*)mlx_get_data_addr(p->we.img_ptr,
+			&p->we.bpp, &p->we.s_l, &p->we.endian);
+	if (!p->we.img)
 		return (0);
 	p->we.s_l /= 4;
-	if (!(p->ea.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/colorstone.xpm", &p->ea.w, &p->ea.h)))
+	p->ea.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/colorstone.xpm", &p->ea.w, &p->ea.h);
+	if (!p->ea.img_ptr)
 		return (0);
-	if (!(p->ea.img = (int*)mlx_get_data_addr(\
-	p->ea.img_ptr, &p->ea.bpp, &p->ea.s_l, &p->ea.endian)))
+	p->ea.img = (int*)mlx_get_data_addr(p->ea.img_ptr,
+			&p->ea.bpp, &p->ea.s_l, &p->ea.endian);
+	if (!p->ea.img)
 		return (0);
 	p->ea.s_l /= 4;
 	return (1);
@@ -73,18 +79,13 @@ int	create_text_verti(t_pars *p)
 
 int	create_text_sprite(t_pars *p)
 {
-	if (!(p->wall.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/mur_briques.xpm", &p->wall.w, &p->wall.h)))
+	p->sprite.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
+			"./pics/pillar.xpm", &p->sprite.w, &p->sprite.h);
+	if (!p->sprite.img_ptr)
 		return (0);
-	if (!(p->wall.img = (int*)mlx_get_data_addr(\
-	p->wall.img_ptr, &p->wall.bpp, &p->wall.s_l, &p->wall.endian)))
-		return (0);
-	p->wall.s_l /= 4;
-	if (!(p->sprite.img_ptr = mlx_xpm_file_to_image(\
-	p->scr.mlx, "./pics/pillar.xpm", &p->sprite.w, &p->sprite.h)))
-		return (0);
-	if (!(p->sprite.img = (int*)mlx_get_data_addr(\
-	p->sprite.img_ptr, &p->sprite.bpp, &p->sprite.s_l, &p->sprite.endian)))
+	p->sprite.img = (int*)mlx_get_data_addr(p->sprite.img_ptr,
+			&p->sprite.bpp, &p->sprite.s_l, &p->sprite.endian);
+	if (!p->sprite.img)
 		return (0);
 	p->sprite.s_l /= 4;
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/10 15:29:08 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:22:23 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ t_sprite *add_sprite(int y, int x, t_pars *pars)
 	t_sprite *new;
 	int i;
 	
-	new = NULL;
-	if ((new = malloc(sizeof(t_sprite) * (pars->nb_spr + 1))) == NULL)
-		return (NULL);
+	new = ft_alloc(sizeof(t_sprite) * (pars->nb_spr + 1), pars);
 	i = -1;
 	while (++i < pars->nb_spr)
 		new[i] = pars->spr[i];
@@ -102,8 +100,8 @@ t_sprite *add_sprite(int y, int x, t_pars *pars)
 	new[i].v_x = 0;
 	new[i].v_y = 0;
 	new[i].dst = 0;
-	pars->nb_spr++;
 	free(pars->spr);
+	pars->nb_spr++;
 	return (new);
 }
 
@@ -143,9 +141,8 @@ int pars_map(t_pars *pars, char *file)
 	pars->scr.h = 600;
 
 	if (!(create_all(pars)))
-		return (-1);
+		return (0);
 
-	pars->wall_col = 0x00ff0000;
 	pars->floor_col = 0x0000ff00;
 	pars->sky_col = 0x000000ff;
 	pars->scr.fov = 60;
@@ -179,11 +176,9 @@ int pars_map(t_pars *pars, char *file)
 	close(fd);
 //	printf("map_w = %d, map_h = %d\n", pars->map_w, pars->map_h);
 
-	if ((pars->map.map = malloc(sizeof(int*) * pars->map.map_h)) == NULL)
-		return (-1);
+	pars->map.map = ft_alloc(sizeof(int*) * pars->map.map_h, pars);
 	while (++i < pars->map.map_h)
-		if ((pars->map.map[i] = malloc(sizeof(int) * pars->map.map_w)) == NULL)
-			return (-1);
+		pars->map.map[i] = ft_alloc(sizeof(int) * pars->map.map_w, pars);
 	set_map(pars, -1);
 	
 	i = 0;
@@ -198,8 +193,7 @@ int pars_map(t_pars *pars, char *file)
 			if (line[k] != ' ')
 				pars->map.map[i][j] = line[k] - '0';
 			if (line[k] == '2')
-				if ((pars->spr = add_sprite(i, j, pars)) == NULL)
-					return (-1);
+				pars->spr = add_sprite(i, j, pars);
 			j++;
 		}
 		i++;
@@ -244,7 +238,7 @@ int pars_map(t_pars *pars, char *file)
 	// }
 	
 //	printf("player_h = %d, angle/pixel = %f, tan(30) = %f, dst scr = %d\n", pars->player_h, pars->angle_per_pix, tan((pars->scr.fov / 2)), pars->h);
-	return (0);
+	return (1);
 }
 
 
@@ -255,8 +249,9 @@ int main(int argc, char **argv)
 	t_pars pars;
 
 	setbuf(stdout, NULL);
-	init_pars(&pars);
-	if ((pars_map(&pars, argv[1]) == -1))
+	if (!init_pars(&pars))
+		exit (0);
+	if (!pars_map(&pars, argv[1]))
 		exit (0);
 	printf("pars.w = %d, pars.h = %d, pars.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.s_l);
 //	contouring_sprite(&pars);

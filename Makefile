@@ -1,12 +1,15 @@
 NAME		= cub3D
 
 SRCS		= 	main.c \
-				init_struct.c \
+				init_parsing.c \
+				init_text.c \
+				init_other.c \
 				create_wind_text.c \
 				raycasting.c \
 				raycasting_utils.c \
 				cub3d_v3_sprites_vector.c \
 				print_wall.c \
+				free.c \
 
 OBJS		= $(SRCS:.c=.o)
 
