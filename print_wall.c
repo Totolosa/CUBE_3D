@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:51:30 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 08:38:00 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 12:00:21 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	print_wall_texture(int *x, t_ray *ray, t_pars *pars)
 
 int	print_wall_col(t_ray *ray, int x, t_pars *pars)
 {
-	ray->w_scr_h = (double)pars->scr.d / ray->wall.dst;
+	ray->w_scr_h = pars->scr.d / ray->wall.dst;
 	if (ray->w_scr_h <= pars->scr.h)
 		ray->sky_h = ((double)pars->scr.h - ray->w_scr_h) / 2;
 	else

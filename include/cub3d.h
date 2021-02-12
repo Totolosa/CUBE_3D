@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 15:10:50 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 16:41:37 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ typedef struct	s_sprite
 	double v_dir;
 	double v_per;
 	double dst;
+	double cen_scr;
+	double r_scr;
+	double l_scr;
+	double dst_scr;
+	double w_scr;
+	double h_scr;
+	double scale_h;
+	double scale_w;
 }				t_sprite;
 
 typedef struct	s_ray
@@ -72,6 +80,7 @@ typedef struct	s_text
 	int h;
 	int endian;
 	int bpp;
+	int contour;
 }				t_text;
 
 typedef struct	s_screen
@@ -80,7 +89,7 @@ typedef struct	s_screen
 	void *win;
 	int w;
 	int h;
-	int d;
+	double d;
 	double fov;
 	void *img_ptr;
 	int *img;

@@ -31,7 +31,7 @@ MINILIBX	= minilibx_mms
 COMP		= $(LIBFT)/libft.a libmlx.dylib
 #COMP		= $(LIBFT)/libft.a $(MINILIBX)/libmlx.a
 
-all:		 comp $(NAME)
+all:		comp $(NAME)
 
 $(NAME): 	$(OBJS)
 			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L $(LIBFT) -lft -L $(MINILIBX) -lmlx -o $(NAME)
@@ -53,4 +53,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: 	all compilation clean fclean re
+.PHONY: 	all comp clean fclean re

@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 17:50:52 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 16:50:52 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,21 @@ t_sprite *add_sprite(int y, int x, t_pars *pars)
 
 int contouring_sprite(t_pars *pars)
 {
-	int ref;
-	int x;
-	int y;
+	// int ref;
+	// int x;
+	// int y;
 	
-	y = -1;
-	ref = pars->spr_text.img[0];
-	while (++y < pars->spr_text.h)
-	{
-		x = -1;
-		while (++x < pars->spr_text.h)
-			if (pars->spr_text.img[x + y * pars->spr_text.s_l] == ref)
-				pars->spr_text.img[x + y * pars->spr_text.s_l] = 0xff000000;
-	}
+	// y = -1;
+	// printf("")
+	pars->spr_text.contour = pars->spr_text.img[0];
+	// ref = pars->spr_text.img[0];
+	// while (++y < pars->spr_text.h)
+	// {
+	// 	x = -1;
+	// 	while (++x < pars->spr_text.h)
+	// 		if (pars->spr_text.img[x + y * pars->spr_text.s_l] == ref)
+	// 			pars->spr_text.img[x + y * pars->spr_text.s_l] = 0xff000000;
+	// }
 	return (1);
 }
 
@@ -131,11 +133,11 @@ int pars_map(t_pars *pars, char *file)
 	int i = -1, j = -1;
 	pars->map.map_w = 0;
 	pars->map.map_h = 1;
-	pars->moov.x_pos = 4;
+	pars->moov.x_pos = 3;
 //	pars->moov.x_pos= 10.498097;
-	pars->moov.y_pos = 4.5;
+	pars->moov.y_pos = 3;
 //	pars->moov.y_pos= 5.456422;
-	pars->moov.ang = -90;
+	pars->moov.ang = 45;
 	pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 	pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 	pars->moov.speed = 0.2;
@@ -260,8 +262,8 @@ int main(int argc, char **argv)
 		exit (0);
 	if (!pars_map(&pars, argv[1]))
 		exit (0);
-	printf("pars.w = %d, pars.h = %d, pars.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.s_l);
-//	contouring_sprite(&pars);
+	printf("screen.w = %d, screen.h = %d, screen.d = %f, screen.sl = %d\n", pars.scr.w, pars.scr.h, pars.scr.d, pars.scr.s_l);
+	contouring_sprite(&pars);
 	modify_img(&pars);
 	mlx_put_image_to_window(pars.scr.mlx, pars.scr.win, pars.scr.img_ptr, 0, 0);
 	mlx_hook(pars.scr.win, 02, 1L<<0, show_key_code, &pars);
