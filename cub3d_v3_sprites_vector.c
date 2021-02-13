@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/12 17:55:30 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/13 18:03:51 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ int order_sprite(t_pars *pars)
 			}
 		}
 	}
+	i = -1;
+	// while (++i < pars->nb_spr)
+	// 	printf("dist.spr[%d] = %.4f\n", i + 1, pars->spr[i].v_dir);
 	return (1);
 }
 
@@ -125,10 +128,12 @@ int calcul_h_sprite(t_pars *pars)
 				pars->spr[i].scale_w = pars->spr_text.w / (pars->spr[i].w_scr * 2);
 			}
 		}
-		printf("sprite %d : v_dir = %.2f, v_per = %.2f, dst = %.2f, dst_scr = %.2f, cen_scr = %.2f, w_scr = %.2f, r_scr = %.2f, l_scr = %.2f, h_scr = %.2f, scale_h = %.4f, scale_w = %.4f\n",
-		i+1, pars->spr[i].v_dir, pars->spr[i].v_per, pars->spr[i].dst, pars->spr[i].dst_scr, pars->spr[i].cen_scr, pars->spr[i].w_scr, pars->spr[i].r_scr, pars->spr[i].l_scr, pars->spr[i].h_scr, pars->spr[i].scale_h, pars->spr[i].scale_w);
 	}
 	order_sprite(pars);
+	i = -1;
+	while (++i < pars->nb_spr)
+		printf("sprite %d : v_dir = %.2f, v_per = %.2f, dst = %.2f, dst_scr = %.2f, cen_scr = %.2f, w_scr = %.2f, r_scr = %.2f, l_scr = %.2f, h_scr = %.2f, scale_h = %.4f, scale_w = %.4f\n",
+		i+1, pars->spr[i].v_dir, pars->spr[i].v_per, pars->spr[i].dst, pars->spr[i].dst_scr, pars->spr[i].cen_scr, pars->spr[i].w_scr, pars->spr[i].r_scr, pars->spr[i].l_scr, pars->spr[i].h_scr, pars->spr[i].scale_h, pars->spr[i].scale_w);
 	return (1);
 }
 
@@ -141,28 +146,30 @@ int print_sprite(t_pars *pars)
 	double y_spr;
 	
 	i = -1;
-	x_scr = 0;
-	y_scr = 0;
-	x_spr = 0;
-	y_spr = 0;
 	while (++i < pars->nb_spr)
 	{
 		if (pars->spr[i].l_scr < pars->scr.w && pars->spr[i].r_scr > 0 && pars->spr[i].v_dir > 0 && pars->spr[i].dst > 0)
 		{
 			x_scr = pars->spr[i].l_scr;
-			y_scr = (double)pars->scr.h / 2 - (double)pars->spr[i].h_scr / 2;
-			
-			while (y_spr < pars->spr_text.h)
+			if (pars->spr[i].h_scr > pars->scr.h)
+			{
+				y_spr = (pars->spr[i].h_scr - (double)pars->scr.h) / 2 / pars->spr[i].h_scr * (double)pars->spr_text.h;
+				y_scr = 0;
+			}
+			else 
+			{
+				y_spr = 0;
+				y_scr = (double)pars->scr.h / 2 - (double)pars->spr[i].h_scr / 2;
+			}
+			while (y_spr < pars->spr_text.h && y_scr < pars->scr.h)
 			{
 				x_spr = 0;
 				x_scr = pars->spr[i].l_scr;
-				while (x_scr < pars->spr[i].r_scr)
+				while (x_scr < pars->spr[i].r_scr && x_scr < pars->scr.w)
 				{
 					if (x_scr >= 0 && pars->spr_text.img[(int)x_spr + ((int)y_spr * pars->spr_text.s_l)] != pars->spr_text.contour)
 					{
-					//	printf("spr_text.img = %d, pars->spr_text.contour = %d\n", pars->spr_text.img[(int)x_spr + ((int)y_spr * pars->spr_text.s_l)], pars->spr_text.contour);
 						pars->scr.img[(int)x_scr + (int)y_scr * pars->scr.s_l] = pars->spr_text.img[(int)x_spr + ((int)y_spr * pars->spr_text.s_l)];
-
 					}
 					x_spr += pars->spr[i].scale_w;
 					x_scr++;
@@ -171,13 +178,13 @@ int print_sprite(t_pars *pars)
 				y_scr++;
 			}
 		}
-		printf("i = %d, nb_spr = %d\n", i, pars->nb_spr);
 	}
 	return (1);
 }
 
 // A FAIRE 
-// - trier les sprites par distance
+// - trier les sprites par distance --> OK
+// - gerer probleme miroir --> OK
 // - prendre en compte lorsque sprite trop pres (taille sprite ecran > taille ecran)
 // - gerer lorsque un sprite derriere un mur
 

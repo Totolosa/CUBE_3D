@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/12 16:50:52 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/13 17:04:34 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int pars_map(t_pars *pars, char *file)
 //	pars->moov.x_pos= 10.498097;
 	pars->moov.y_pos = 3;
 //	pars->moov.y_pos= 5.456422;
-	pars->moov.ang = 45;
+	pars->moov.ang = 30;
 	pars->moov.x_dir = cos(pars->moov.ang / (180 / M_PI));
 	pars->moov.y_dir = sin(pars->moov.ang / (180 / M_PI));
 	pars->moov.speed = 0.2;
