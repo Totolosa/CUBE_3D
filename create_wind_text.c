@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 15:16:18 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 17:33:56 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	create_wind(t_pars *p)
 			&p->scr.bpp, &p->scr.s_l, &p->scr.endian);
 	if (!p->scr.img)
 		return (0);
-	p->scr.s_l *= 0.25;
+	p->scr.s_l /= 4;
 	return (1);
 }
 
 int	create_text_horiz(t_pars *p)
 {
 	p->no.img_ptr = mlx_xpm_file_to_image(p->scr.mlx,
-			"./pics/greystone.xpm", &p->no.w, &p->no.h);
+			p->no.path, &p->no.w, &p->no.h);
 	if (!p->no.img_ptr)
 		return (0);
 	p->no.img = (int*)mlx_get_data_addr(p->no.img_ptr,
@@ -88,6 +88,7 @@ int	create_text_sprite(t_pars *p)
 	if (!p->spr_text.img)
 		return (0);
 	p->spr_text.s_l /= 4;
+	p->spr_text.cont = p->spr_text.img[0];
 	return (1);
 }
 

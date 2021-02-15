@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/12 16:41:37 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 18:09:39 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ typedef struct	s_print_text
 	double	y;
 }				t_print_text;
 
+typedef struct	s_print_sprite
+{
+	double	x_scr;
+	double	y_scr;
+	double	x_spr;
+	double	y_spr;
+}				t_print_sprite;
+
 typedef struct	s_text
 {
 	char *path;
@@ -80,7 +88,7 @@ typedef struct	s_text
 	int h;
 	int endian;
 	int bpp;
-	int contour;
+	int cont;
 }				t_text;
 
 typedef struct	s_screen
@@ -130,6 +138,7 @@ typedef struct	s_pars
 	// -- SPRITES --
 	t_sprite *spr;
 	int nb_spr;
+	double *w_dst_col;
 	// -- HEIGHT --
 	int wall_h;
 	int player_h;
@@ -144,8 +153,14 @@ typedef struct	s_pars
 }				t_pars;
 
 void modify_img(t_pars *pars);
+int update_img(int key_code, t_pars *pars);
+
+char *ft_strtrim_cub(char const *s1, char const *set, t_pars *pars);
+char **ft_split_cub(char const *s, char c, t_pars *pars);
+int parsing_first_part(t_pars *pars);
 
 int init_pars(t_pars *pars);
+int parsing(t_pars *pars, char *file);
 void init_t_ray(double angle, t_ray *ray);
 int	create_all(t_pars *pars);
 
@@ -158,7 +173,7 @@ int print_wall_col(t_ray *ray, int x, t_pars *pars);
 void init_print_text(t_print_text *text);
 
 void init_new_sprite(t_sprite *sprite);
-
-void *ft_alloc(unsigned long size, t_pars *pars);
+int calcul_h_sprite(t_pars *p);
+int print_sprites(t_pars *pars);
 
 #endif

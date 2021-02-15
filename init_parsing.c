@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 15:25:33 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 18:15:15 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_moov(t_pars *pars)
 	pars->moov.x_dir = 0;
 	pars->moov.y_dir = 0;
 	pars->moov.ang_pix = 0;
-	pars->moov.speed = 0;
+	pars->moov.speed = 0.2;
 }
 
 void	init_screen(t_pars *pars)
@@ -30,7 +30,7 @@ void	init_screen(t_pars *pars)
 	pars->scr.w = 0;
 	pars->scr.h = 0;
 	pars->scr.d = 0;
-	pars->scr.fov = 0;
+	pars->scr.fov = 60;
 	pars->scr.img_ptr = 0;
 	pars->scr.img = 0;
 	pars->scr.s_l = 0;
@@ -47,17 +47,15 @@ void	init_map(t_pars *pars)
 int	init_pars(t_pars *pars)
 {
 	pars->free = NULL;
-	// pars->free = ft_alloc(sizeof(t_list), pars);
-	// pars->free->content = 0;
-	// pars->free->next = 0;
 	init_moov(pars);
 	init_screen(pars);
 	init_map(pars);
 	pars->spr = 0;
 	pars->nb_spr = 0;
+	pars->w_dst_col = 0;
 	pars->sky_col = 0;
 	pars->floor_col = 0;
-	pars->wall_h = 0;
-	pars->player_h = 0;
+	pars->wall_h = 64;
+	pars->player_h = pars->wall_h / 2;
 	return (1);
 }
