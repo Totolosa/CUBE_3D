@@ -4,12 +4,14 @@ SRCS		= 	main.c \
 				init_parsing.c \
 				parsing.c \
 				parsing_first_part.c \
+				create_wind_text.c \
+				create_map.c \
+				fill_map.c \
 				parsing_map.c \
 				parsing_utils.c \
 				ft_split_cub.c \
 				init_text.c \
 				init_other.c \
-				create_wind_text.c \
 				modify_img.c \
 				raycasting.c \
 				raycasting_utils.c \

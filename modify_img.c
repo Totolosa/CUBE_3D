@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 16:39:41 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:38:40 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	modify_img(t_pars *pars)
 	while (i < pars->scr.w)
 	{
 		find_wall_contact(&ray, pars);
-	//	printf("scr.w = %d, i = %d\n", pars->scr.w, i);
 		pars->w_dst_col[i] = ray.wall.dst;
 		print_wall_col(&ray, i, pars);
 		i++;
@@ -42,8 +41,9 @@ int update_img(int key_code, t_pars *pars)
 	if (key_code == 53)
 	{
 		mlx_destroy_window(pars->scr.mlx, pars->scr.win );
-		free(pars->map.map);
-		exit(0);
+		ft_lstclear(&pars->free, free);
+		write(1, "\nAdios Amigo!\n", 14);
+		exit (0);
 	}
 	if (key_code == 123)
 	{

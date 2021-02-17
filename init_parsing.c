@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 18:15:15 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:40:46 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_screen(t_pars *pars)
 	pars->scr.win = 0;
 	pars->scr.w = 0;
 	pars->scr.h = 0;
+	pars->scr.real_w = 0;
+	pars->scr.real_h = 0;
 	pars->scr.d = 0;
 	pars->scr.fov = 60;
 	pars->scr.img_ptr = 0;
@@ -46,10 +48,10 @@ void	init_map(t_pars *pars)
 
 int	init_pars(t_pars *pars)
 {
-	pars->free = NULL;
 	init_moov(pars);
 	init_screen(pars);
 	init_map(pars);
+	pars->free = NULL;
 	pars->spr = 0;
 	pars->nb_spr = 0;
 	pars->w_dst_col = 0;

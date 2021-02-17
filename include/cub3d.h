@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 18:09:39 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 17:53:31 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct	s_screen
 	void *win;
 	int w;
 	int h;
+	int real_w;
+	int real_h;
 	double d;
 	double fov;
 	void *img_ptr;
@@ -154,15 +156,20 @@ typedef struct	s_pars
 
 void modify_img(t_pars *pars);
 int update_img(int key_code, t_pars *pars);
+void quit_prog(t_pars *pars);
 
 char *ft_strtrim_cub(char const *s1, char const *set, t_pars *pars);
 char **ft_split_cub(char const *s, char c, t_pars *pars);
 int parsing_first_part(t_pars *pars);
+int parsing_map(t_pars *pars);
+int start_browse_file(int *ret, char **line, int fd, t_pars *pars);
+int fill_map(t_pars *pars);
+int	create_map(t_pars *pars, int c);
 
 int init_pars(t_pars *pars);
 int parsing(t_pars *pars, char *file);
 void init_t_ray(double angle, t_ray *ray);
-int	create_all(t_pars *pars);
+int create_window_textures(t_pars *pars);
 
 int find_wall_contact(t_ray *ray, t_pars *pars);
 int horiz_or_verti(t_ray *ray, t_ray horiz, t_ray verti);

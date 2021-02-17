@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:16:27 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 14:28:46 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:32:57 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ char	*ft_strtrim_cub(char const *s1, char const *set, t_pars *pars)
 		dest[j] = s1[i + j];
 	dest[j] = '\0';
 	return (dest);
+}
+
+void quit_prog(t_pars *pars)
+{
+	ft_lstclear(&pars->free, free);
+	write(1, "Error\n", 6);
+	exit (0);
 }

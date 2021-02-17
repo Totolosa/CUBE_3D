@@ -6,25 +6,21 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 18:16:59 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 18:00:12 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	assign_resolution(char *line, t_pars *pars)
+int	assign_resolution(char *line, t_pars *p)
 {
 	char	*resolution;
 	char	**tab;
 
-	resolution = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-	tab = ft_split_cub(resolution, ' ', pars);
-	pars->scr.w = ft_atoi(tab[0]);
-	pars->scr.h = ft_atoi(tab[1]);
-	pars->w_dst_col = ft_alloc(sizeof(double) * pars->scr.w, pars->free);
-	pars->moov.ang_pix = pars->scr.fov / (double)pars->scr.w;
-	pars->scr.d = ((double)pars->scr.w / 2)
-		/ tan((pars->scr.fov / 2) / (180 / M_PI));
+	resolution = ft_strtrim_cub(line, "RNOSWEA \n", p);
+	tab = ft_split_cub(resolution, ' ', p);
+	p->scr.w = ft_atoi(tab[0]);
+	p->scr.h = ft_atoi(tab[1]);
 	return (1);
 }
 
@@ -49,29 +45,47 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 	return (1);
 }
 
+int reconize_line(char *line, t_pars *pars)
+{
+	if (line[0] == 'R' && line[1] == ' ')
+		assign_resolution(line, pars);
+	else if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
+		pars->no.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
+		pars->so.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
+		pars->we.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
+		pars->ea.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	else if (line[0] == 'S' && line[1] == ' ')
+		pars->spr_text.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	else if ((line[0] == 'F' || line[0] == 'C') && line[1] == ' ')
+		assign_color_sky_floor(line, pars);
+	return (1);
+}
+
 int	parsing_first_part(t_pars *pars)
 {
+	int		ret;
 	char	*line;
 	int		fd;
 
 	line = NULL;
+	ret = 0;
 	fd = open(pars->map.map_file, O_RDONLY);
-	while (get_next_line(fd, &line))
+	if (fd == -1)
+		quit_prog(pars);
+	ret = get_next_line(fd, &line);
+	while (ret > 0)
 	{
-		if (line[0] == 'R')
-			assign_resolution(line, pars);
-		else if (line[0] == 'N')
-			pars->no.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-		else if (line[0] == 'S' && line[1] == 'O')
-			pars->so.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-		else if (line[0] == 'W')
-			pars->we.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-		else if (line[0] == 'E')
-			pars->ea.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-		else if (line[0] == 'S' && line[1] == ' ')
-			pars->spr_text.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-		else if (line[0] == 'F' || line[0] == 'C')
-			assign_color_sky_floor(line, pars);
+		reconize_line(line, pars);
+		free(line);
+		ret = get_next_line(fd, &line);
+	}
+	if (ret == -1)
+	{
+		free(line);
+		quit_prog(pars);
 	}
 	close(fd);
 	return (1);
