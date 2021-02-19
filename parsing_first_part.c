@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/17 18:00:12 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 16:48:38 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 	return (1);
 }
 
-int reconize_line(char *line, t_pars *pars)
+int	reconize_line(char *line, t_pars *pars)
 {
 	if (line[0] == 'R' && line[1] == ' ')
 		assign_resolution(line, pars);

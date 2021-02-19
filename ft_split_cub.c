@@ -6,16 +6,16 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:59:30 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 15:45:05 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 17:01:59 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int		nbr_of_words(char *str, char c)
+static int	nbr_of_words(char *str, char c)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -31,7 +31,7 @@ static int		nbr_of_words(char *str, char c)
 	return (count);
 }
 
-static char		**malloc_tab(char *str, char c, t_pars *pars)
+static char	**malloc_tab(char *str, char c, t_pars *pars)
 {
 	int		i;
 	int		j;
@@ -58,11 +58,11 @@ static char		**malloc_tab(char *str, char c, t_pars *pars)
 	return (tab);
 }
 
-static char		**fill_tab(char **tab, char *str, char c)
+static char	**fill_tab(char **tab, char *str, char c)
 {
 	int	i;
 	int	j;
-	int k;
+	int	k;
 
 	i = 0;
 	j = 0;
@@ -80,7 +80,7 @@ static char		**fill_tab(char **tab, char *str, char c)
 	return (tab);
 }
 
-char			**ft_split_cub(char const *s, char c, t_pars *pars)
+char	**ft_split_cub(char const *s, char c, t_pars *pars)
 {
 	int		i;
 	char	*str;
@@ -90,7 +90,8 @@ char			**ft_split_cub(char const *s, char c, t_pars *pars)
 	if (s == NULL)
 		return (NULL);
 	str = (char*)s;
-	if ((tab = malloc_tab(str, c, pars)) == NULL)
+	tab = malloc_tab(str, c, pars);
+	if (tab == NULL)
 		return (NULL);
 	tab = fill_tab(tab, str, c);
 	return (tab);

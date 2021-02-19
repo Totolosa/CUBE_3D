@@ -6,17 +6,17 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:43:44 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/17 17:51:33 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 16:59:45 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_sprite *add_sprite(int y, int x, t_pars *pars)
+t_sprite	*add_sprite(int y, int x, t_pars *pars)
 {
-	t_sprite *new;
-	int i;
-	
+	t_sprite	*new;
+	int			i;
+
 	new = ft_alloc(sizeof(t_sprite) * (pars->nb_spr + 1), pars->free);
 	i = -1;
 	while (++i < pars->nb_spr)
@@ -33,7 +33,7 @@ t_sprite *add_sprite(int y, int x, t_pars *pars)
 	return (new);
 }
 
-int init_position(char c, int i, int j, t_pars *pars)
+int	init_position(char c, int i, int j, t_pars *pars)
 {
 	pars->moov.x_pos = j + 0.5;
 	pars->moov.y_pos = i + 0.5;
@@ -51,11 +51,11 @@ int init_position(char c, int i, int j, t_pars *pars)
 	return (1);
 }
 
-int fill_line_map(int i, char *line, t_pars *pars)
+int	fill_line_map(int i, char *line, t_pars *pars)
 {
-	int j;
-	int k;
-	
+	int	j;
+	int	k;
+
 	k = -1;
 	j = 0;
 	while (line[++k])
@@ -65,19 +65,20 @@ int fill_line_map(int i, char *line, t_pars *pars)
 		if (line[k] == '2')
 			pars->spr = add_sprite(i, j, pars);
 		if (line[k] == 'N' || line[k] == 'S' || line[k] == 'W'
-				|| line[k] == 'E')
+			|| line[k] == 'E')
 			init_position(line[k], i, j, pars);
 		j++;
 	}
 	return (1);
 }
 
-static int map_browse_file(int *ret, char **line, int fd, t_pars *pars)
+static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (((*line)[0] == ' ' || (*line)[0] == '1' || (*line)[0] == '2') && *ret > 0)
+	while (((*line)[0] == ' ' || (*line)[0] == '1'
+			|| (*line)[0] == '2') && *ret > 0)
 	{
 		fill_line_map(i, *line, pars);
 		i++;
@@ -94,12 +95,12 @@ static int map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	return (1);
 }
 
-int fill_map(t_pars *pars)
+int	fill_map(t_pars *pars)
 {
-	int ret;
-	char *line;
-	int fd;
-	
+	int		ret;
+	char	*line;
+	int		fd;
+
 	ret = 0;
 	line = NULL;
 	fd = open(pars->map.map_file, O_RDONLY);

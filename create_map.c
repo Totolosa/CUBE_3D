@@ -6,13 +6,13 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:16:59 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/17 17:46:04 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 16:53:42 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int start_browse_file(int *ret, char **line, int fd, t_pars *pars)
+int	start_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
 	*ret = get_next_line(fd, line);
 	while (*line[0] != ' ' && *line[0] != '1' && *line[0] != '2' && *ret > 0)
@@ -28,11 +28,11 @@ int start_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	return (1);
 }
 
-static int map_browse_file(int *ret, char **line, int fd, t_pars *pars)
+static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
-	int i;
-	int count_w;
-	
+	int	i;
+	int	count_w;
+
 	while (((*line)[0] == ' ' || (*line)[0] == '1'
 			|| (*line)[0] == '2') && *ret > 0)
 	{
@@ -55,7 +55,7 @@ static int map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	return (1);
 }
 
-int end_browse_file(int *ret, char **line, int fd, t_pars *pars)
+int	end_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
 	while ((*line)[0] == '\0' && *ret > 0)
 	{
@@ -78,10 +78,10 @@ int end_browse_file(int *ret, char **line, int fd, t_pars *pars)
 
 int	reconize_size_map(t_pars *pars)
 {
-	int ret;
-	char *line;
-	int fd;
-	
+	int		ret;
+	char	*line;
+	int		fd;
+
 	ret = 0;
 	line = NULL;
 	fd = open(pars->map.map_file, O_RDONLY);
@@ -101,8 +101,8 @@ int	reconize_size_map(t_pars *pars)
 
 int	create_map(t_pars *pars, int c)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	reconize_size_map(pars);
 	pars->map.map = ft_alloc(sizeof(int*) * pars->map.map_h, pars->free);

@@ -1,18 +1,17 @@
 NAME		= cub3D
 
 SRCS		= 	main.c \
+				cub3d.c \
 				init_parsing.c \
-				parsing.c \
-				parsing_first_part.c \
-				create_wind_text.c \
-				create_map.c \
-				fill_map.c \
-				parsing_map.c \
-				parsing_utils.c \
-				ft_split_cub.c \
 				init_text.c \
 				init_other.c \
-				modify_img.c \
+				parsing_first_part.c \
+				create_window_textures.c \
+				create_map.c \
+				fill_map.c \
+				check_map.c \
+				parsing_utils.c \
+				ft_split_cub.c \
 				raycasting.c \
 				raycasting_utils.c \
 				print_wall.c \

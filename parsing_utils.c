@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:16:27 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/16 16:32:57 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 16:49:18 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_on_set(char c, const char *set)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (set[++i])
@@ -51,9 +51,10 @@ char	*ft_strtrim_cub(char const *s1, char const *set, t_pars *pars)
 	return (dest);
 }
 
-void quit_prog(t_pars *pars)
+int	quit_prog(t_pars *pars)
 {
 	ft_lstclear(&pars->free, free);
 	write(1, "Error\n", 6);
 	exit (0);
+	return (1);
 }
