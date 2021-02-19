@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_wind_text.c                                 :+:      :+:    :+:   */
+/*   create_window_textures.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/16 16:35:01 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 13:53:04 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,15 @@ int	create_text_sprite(t_pars *p)
 
 int	create_window_textures(t_pars *pars)
 {
+	if (pars->scr.w == 0 || pars->scr.h == 0)
+		quit_prog("Window size issue\n", pars);
 	if (!(create_wind(pars)))
-		quit_prog(pars);
+		quit_prog("Window creation issue\n", pars);
 	if (!(create_text_horiz(pars)))
-		quit_prog(pars);
+		quit_prog("Texture creation failed\n", pars);
 	if (!(create_text_verti(pars)))
-		quit_prog(pars);
+		quit_prog("Texture creation failed\n", pars);
 	if (!(create_text_sprite(pars)))
-		quit_prog(pars);
+		quit_prog("Sprite texture creation failed\n", pars);
 	return (1);
 }

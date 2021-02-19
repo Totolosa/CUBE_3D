@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:48:38 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 13:48:04 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	parsing_first_part(t_pars *pars)
 	ret = 0;
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog(pars);
+		quit_prog("fct open() failed\n", pars);
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{
@@ -85,7 +85,7 @@ int	parsing_first_part(t_pars *pars)
 	if (ret == -1)
 	{
 		free(line);
-		quit_prog(pars);
+		quit_prog("GNL failed\n", pars);
 	}
 	close(fd);
 	return (1);

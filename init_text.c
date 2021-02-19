@@ -6,21 +6,22 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 16:47:58 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/11 15:14:39 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 14:11:04 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_print_text(t_print_text *text)
+int	init_print_text(t_print_text *text)
 {
 	text->scale_h = 0;
 	text->scale_w = 0;
 	text->x = 0;
 	text->y = 0;
+	return (1);
 }
 
-void	init_text_horiz(t_pars *pars)
+int	init_text_horiz(t_pars *pars)
 {
 	pars->no.path = 0;
 	pars->no.img_ptr = 0;
@@ -38,9 +39,10 @@ void	init_text_horiz(t_pars *pars)
 	pars->so.h = 0;
 	pars->so.endian = 0;
 	pars->so.bpp = 0;
+	return (1);
 }
 
-void	init_text_verti(t_pars *pars)
+int	init_text_verti(t_pars *pars)
 {
 	pars->we.path = 0;
 	pars->we.img_ptr = 0;
@@ -58,9 +60,10 @@ void	init_text_verti(t_pars *pars)
 	pars->ea.h = 0;
 	pars->ea.endian = 0;
 	pars->ea.bpp = 0;
+	return (1);
 }
 
-void	init_text(t_pars *pars)
+int	init_text(t_pars *pars)
 {
 	init_text_horiz(pars);
 	init_text_verti(pars);
@@ -72,4 +75,5 @@ void	init_text(t_pars *pars)
 	pars->spr_text.h = 0;
 	pars->spr_text.endian = 0;
 	pars->spr_text.bpp = 0;
+	return (1);
 }

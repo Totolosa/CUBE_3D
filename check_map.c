@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 18:21:15 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:52:03 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 14:00:28 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	check_valid_char(t_pars *p)
 			c = p->map.map[i][j];
 			if (c != -1 && c != 0 && c != 1 && c != 2
 				&& c != 'N' && c != 'S' && c != 'W' && c != 'E')
-				quit_prog(p);
+				quit_prog("Incorect character on map\n", p);
 			if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 				position++;
 			if (position == 2
 				|| (i == p->map.map_h && j == p->map.map_w && position == 0))
-				quit_prog(p);
+				quit_prog("Start position issue\n", p);
 		}
 	}
 	return (1);
@@ -43,7 +43,7 @@ int	check_valid_char(t_pars *p)
 int	check_square(int ***copy, int x, int y, t_pars *pars)
 {
 	if (pars->map.map[y][x] == -1)
-		quit_prog(pars);
+		quit_prog("Map not closed\n", pars);
 	else if (pars->map.map[y][x] == 1)
 	{
 		(*copy)[y][x] = 1;
@@ -60,7 +60,7 @@ int	check_square(int ***copy, int x, int y, t_pars *pars)
 int	is_on_map(int x, int y, t_pars *pars)
 {
 	if (x < 0 || y < 0 || x >= pars->map.map_w || y >= pars->map.map_h)
-		quit_prog(pars);
+		quit_prog("Map not closed\n", pars);
 	return (1);
 }
 

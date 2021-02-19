@@ -48,7 +48,7 @@ $(NAME): 	$(OBJS)
 comp:
 			make -C $(LIBFT)
 			make -C $(MINILIBX)
-#			cp minilibx_mms/libmlx.dylib .
+			cp minilibx_mms/libmlx.dylib .
 
 %.o:		%.c $(COMP) include/cub3d.h 
 			$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
@@ -61,4 +61,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: 	all comp clean fclean re
+.PHONY: 	all comp clean fclean re comp

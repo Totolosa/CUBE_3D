@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:43:44 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:59:45 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 13:58:18 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	if (*ret == -1)
 	{
 		free(*line);
-		quit_prog(pars);
+		quit_prog("GNL failded\n", pars);
 	}
 	fill_line_map(i, *line, pars);
 	free(*line);
@@ -105,7 +105,7 @@ int	fill_map(t_pars *pars)
 	line = NULL;
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog(pars);
+		quit_prog("fct open() failded\n", pars);
 	start_browse_file(&ret, &line, fd, pars);
 	map_browse_file(&ret, &line, fd, pars);
 	close(fd);

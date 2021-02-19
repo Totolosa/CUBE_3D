@@ -6,13 +6,13 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 10:42:09 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 11:52:18 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 14:09:08 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_t_ray(double angle, t_ray *ray)
+int	init_t_ray(double angle, t_ray *ray)
 {
 	ray->wall.x = -1;
 	ray->wall.y = -1;
@@ -26,4 +26,5 @@ void	init_t_ray(double angle, t_ray *ray)
 	ray->w_scr_h = 0;
 	ray->sky_h = 0;
 	ray->line = 0;
+	return (1);
 }

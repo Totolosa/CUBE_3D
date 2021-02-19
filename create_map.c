@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:16:59 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:53:42 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 14:14:17 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	start_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	if (*ret == -1 || *ret == 0)
 	{
 		free(*line);
-		quit_prog(pars);
+		quit_prog("GNL failed\n", pars);
 	}
 	return (1);
 }
@@ -36,11 +36,6 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	while (((*line)[0] == ' ' || (*line)[0] == '1'
 			|| (*line)[0] == '2') && *ret > 0)
 	{
-		if ((*line)[0] == '\0')
-		{
-			free(*line);
-			quit_prog(pars);
-		}
 		i = -1;
 		count_w = 0;
 		while ((*line)[++i])
@@ -64,13 +59,13 @@ int	end_browse_file(int *ret, char **line, int fd, t_pars *pars)
 		if ((*line)[0] != '\0')
 		{
 			free(*line);
-			quit_prog(pars);
+			quit_prog("Map issue\n", pars);
 		}
 	}
 	if (*ret == -1)
 	{
 		free(*line);
-		quit_prog(pars);
+		quit_prog("GNL failded\n", pars);
 	}
 	free(*line);
 	return (1);
@@ -86,13 +81,13 @@ int	reconize_size_map(t_pars *pars)
 	line = NULL;
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog(pars);
+		quit_prog("fct open() failded\n", pars);
 	start_browse_file(&ret, &line, fd, pars);
 	map_browse_file(&ret, &line, fd, pars);
 	if (ret == -1)
 	{
 		free(line);
-		quit_prog(pars);
+		quit_prog("GNL failded\n", pars);
 	}
 	end_browse_file(&ret, &line, fd, pars);
 	close(fd);

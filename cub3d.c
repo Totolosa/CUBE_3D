@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:57:36 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 14:11:42 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	parsing(t_pars *pars, char *file)
 	return (1);
 }
 
-void	modify_img(t_pars *p)
+int	modify_img(t_pars *p)
 {
 	t_ray	ray;
 	int		i;
@@ -45,6 +45,7 @@ void	modify_img(t_pars *p)
 		print_sprites(p);
 	}
 	mlx_put_image_to_window(p->scr.mlx, p->scr.win, p->scr.img_ptr, 0, 0);
+	return (1);
 }
 
 int	close_window(t_pars *pars)
