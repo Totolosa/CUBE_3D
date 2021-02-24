@@ -6,11 +6,21 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 16:58:01 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:17:25 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_keys(t_pars *pars)
+{
+	pars->key.go_front = 0;
+	pars->key.go_back = 0;
+	pars->key.go_left = 0;
+	pars->key.go_right = 0;
+	pars->key.turn_left = 0;
+	pars->key.turn_right = 0;
+}
 
 void	init_moov(t_pars *pars)
 {
@@ -48,6 +58,7 @@ void	init_map(t_pars *pars)
 
 int	init_pars(t_pars *pars)
 {
+	init_keys(pars);
 	init_moov(pars);
 	init_screen(pars);
 	init_map(pars);

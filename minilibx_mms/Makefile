@@ -29,7 +29,12 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 %.swiftmodule: %.swift
 	swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@ -emit-module -module-name $(patsubst %.swift,%,$<) -module-link-name $(patsubst %.swift,%,$<)
 
-clean:
+clean: 
+	rm -f $(OBJ) $(C_OBJ)
+
+fclean: clean
 	rm -f $(NAME) $(OBJ) $(MODULE_OBJ) $(C_OBJ) *.swiftdoc *~
 
+re:			fclean all
 
+.PHONY: 	clean fclean all re

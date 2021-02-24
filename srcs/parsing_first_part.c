@@ -6,11 +6,28 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/19 13:48:04 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:56:01 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_file_name(char *file, t_pars *pars)
+{
+	unsigned int	len;
+
+	len = ft_strlen(file) - 1;
+	if (file[len] != 'b')
+		quit_prog("Error file name\n", pars);
+	if (file[len - 1] != 'u')
+		quit_prog("Error file name\n", pars);
+	if (file[len - 2] != 'c')
+		quit_prog("Error file name\n", pars);
+	if (file[len - 3] != '.')
+		quit_prog("Error file name\n", pars);
+	pars->map.map_file = file;
+	return (1);
+}
 
 int	assign_resolution(char *line, t_pars *p)
 {
@@ -64,7 +81,7 @@ int	reconize_line(char *line, t_pars *pars)
 	return (1);
 }
 
-int	parsing_first_part(t_pars *pars)
+int	parsing_first_part(char *file, t_pars *pars)
 {
 	int		ret;
 	char	*line;
@@ -72,9 +89,10 @@ int	parsing_first_part(t_pars *pars)
 
 	line = NULL;
 	ret = 0;
+	check_file_name(file, pars);
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog("fct open() failed\n", pars);
+		quit_prog("fct open() parsing_first_part.c failed\n", pars);
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{

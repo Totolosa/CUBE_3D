@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:16:59 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/19 14:14:17 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:46:33 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	reconize_size_map(t_pars *pars)
 	line = NULL;
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog("fct open() failded\n", pars);
+		quit_prog("fct open() create_map.c failded\n", pars);
 	start_browse_file(&ret, &line, fd, pars);
 	map_browse_file(&ret, &line, fd, pars);
 	if (ret == -1)

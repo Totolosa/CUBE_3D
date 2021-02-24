@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 10:19:52 by tdayde            #+#    #+#             */
-/*   Updated: 2020/12/01 13:09:30 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 17:36:40 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
-
-	i = -1;
 	if (s == NULL)
 		return ;
 	write(fd, s, ft_strlen(s));

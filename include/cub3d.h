@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/19 14:12:25 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 14:07:31 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@
 # include "mlx.h"
 # include "libft.h"
 # include "get_next_line.h"
+
+typedef struct s_key
+{
+	int	go_front;
+	int	go_back;
+	int	go_left;
+	int	go_right;
+	int	turn_left;
+	int	turn_right;
+	int	close;
+}	t_key;
 
 typedef struct s_contact
 {
@@ -130,6 +141,7 @@ typedef struct s_map
 typedef struct s_pars
 {
 	t_list		*free;
+	t_key		key;
 	t_screen	scr;
 	t_map		map;
 	t_moov		moov;
@@ -148,12 +160,15 @@ typedef struct s_pars
 }	t_pars;
 
 int		modify_img(t_pars *pars);
-int		update_img(int key_code, t_pars *pars);
+int		update_img(t_pars *pars);
 int		close_window(t_pars *pars);
+int		save_bmp(const char *filename, t_pars *pars);
+int		key_press(int key, t_pars *pars);
+int		key_release(int key, t_pars *pars);
 
 int		init_pars(t_pars *pars);
 int		parsing(t_pars *pars, char *file);
-int		parsing_first_part(t_pars *pars);
+int		parsing_first_part(char *file, t_pars *pars);
 int		create_window_textures(t_pars *pars);
 int		create_map(t_pars *pars, int c);
 int		fill_map(t_pars *pars);

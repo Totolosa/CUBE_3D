@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdayde <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 16:57:10 by tdayde            #+#    #+#             */
-/*   Updated: 2020/12/02 14:35:37 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 17:35:40 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,9 @@ static char		**fill_tab(char **tab, char *str, char c)
 
 char			**ft_split(char const *s, char c)
 {
-	int		i;
 	char	*str;
 	char	**tab;
 
-	i = 0;
 	if (s == NULL)
 		return (NULL);
 	str = (char*)s;
