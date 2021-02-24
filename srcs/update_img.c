@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:58:53 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 13:52:31 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 17:49:41 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,6 @@ int	close_window(t_pars *pars)
 	write(1, "\nAdios Amigo!\n", 14);
 	exit (0);
 	return (1);
-}
-
-int	update_position(t_pars *p)
-{
-	if (p->key.go_front == 1)
-	{
-		p->moov.x_pos += p->moov.x_dir * p->moov.spd;
-		p->moov.y_pos += p->moov.y_dir * p->moov.spd;
-	}
-	if (p->key.go_back == 1)
-	{
-		p->moov.x_pos -= p->moov.x_dir * p->moov.spd;
-		p->moov.y_pos -= p->moov.y_dir * p->moov.spd;
-	}
-	if (p->key.go_left == 1)
-	{
-		p->moov.x_pos += (cos((p->moov.ang - 90) / (180 / M_PI)) * p->moov.spd);
-		p->moov.y_pos += (sin((p->moov.ang - 90) / (180 / M_PI)) * p->moov.spd);
-	}
-	if (p->key.go_right == 1)
-	{
-		p->moov.x_pos += (cos((p->moov.ang + 90) / (180 / M_PI)) * p->moov.spd);
-		p->moov.y_pos += (sin((p->moov.ang + 90) / (180 / M_PI)) * p->moov.spd);
-	}
-	return (0);
 }
 
 int	update_img(t_pars *p)

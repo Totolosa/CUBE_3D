@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 14:07:31 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 17:59:41 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,10 +161,11 @@ typedef struct s_pars
 
 int		modify_img(t_pars *pars);
 int		update_img(t_pars *pars);
-int		close_window(t_pars *pars);
-int		save_bmp(const char *filename, t_pars *pars);
+int		update_position(t_pars *p);
 int		key_press(int key, t_pars *pars);
 int		key_release(int key, t_pars *pars);
+int		close_window(t_pars *pars);
+int		save_bmp(const char *filename, t_pars *pars);
 
 int		init_pars(t_pars *pars);
 int		parsing(t_pars *pars, char *file);
