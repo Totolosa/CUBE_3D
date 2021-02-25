@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 18:02:05 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 13:53:19 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_moov(t_pars *pars)
 	pars->moov.x_dir = 0;
 	pars->moov.y_dir = 0;
 	pars->moov.ang_pix = 0;
-	pars->moov.spd = 0.08;
+	pars->moov.spd = 0.11;
 }
 
 void	init_screen(t_pars *pars)

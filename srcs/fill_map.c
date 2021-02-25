@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:43:44 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/23 15:46:48 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 17:42:13 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_sprite	*add_sprite(int y, int x, t_pars *pars)
 		new[i] = pars->spr[i];
 	new[i].x = (double)x + 0.5;
 	new[i].y = (double)y + 0.5;
-	new[i].x_dif = 0;
-	new[i].y_dif = 0;
 	new[i].v_dir = 0;
 	new[i].v_per = 0;
 	new[i].dst = 0;

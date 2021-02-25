@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:58:53 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 17:49:41 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 15:18:07 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ int	update_img(t_pars *p)
 		close_window(p);
 	if (p->key.turn_left == 1)
 	{
-		p->moov.ang -= 3;
+		p->moov.ang -= 4;
 		p->moov.x_dir = cos(p->moov.ang / (180 / M_PI));
 		p->moov.y_dir = sin(p->moov.ang / (180 / M_PI));
 	}
 	if (p->key.turn_right == 1)
 	{
-		p->moov.ang += 3;
+		p->moov.ang += 4;
 		p->moov.x_dir = cos(p->moov.ang / (180 / M_PI));
 		p->moov.y_dir = sin(p->moov.ang / (180 / M_PI));
 	}

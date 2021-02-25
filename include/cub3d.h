@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 17:59:41 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 17:35:29 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ typedef struct s_sprite
 {
 	double	x;
 	double	y;
-	double	x_dif;
-	double	y_dif;
 	double	v_dir;
 	double	v_per;
 	double	dst;
