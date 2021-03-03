@@ -5,9 +5,9 @@ SO ./pics/redbrick.xpm
 WE ./pics/wood.xpm
 EA ./pics/colorstone.xpm
 S ./pics/pillar.xpm
+C ./pics/sky_moon.xpm
 
-F 0,0,255
-C 0,255,0
+F 0,255,0
 
         1111111111111111111111111
         1000000000110000000000001

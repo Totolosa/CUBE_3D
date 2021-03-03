@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/24 14:42:02 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 12:16:12 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	main(int argc, char **argv)
 {
 	t_pars	pars;
 
+	if (argc != 2 && argc != 3)
+		quit_prog("Number of argument(s) error\n", &pars);
 	setbuf(stdout, NULL);
 	init_pars(&pars);
 	if (!parsing(&pars, argv[1]))

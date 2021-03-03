@@ -17,6 +17,7 @@ SRCS		= 	main.c \
 				ft_split_cub.c \
 				raycasting.c \
 				raycasting_utils.c \
+				print_sky.c \
 				print_wall.c \
 				calcul_sprites.c \
 				print_sprites.c \

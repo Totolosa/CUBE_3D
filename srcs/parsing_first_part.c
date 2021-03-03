@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/23 15:56:01 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 12:47:27 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 	red = ft_atoi(tab[0]);
 	green = ft_atoi(tab[1]);
 	blue = ft_atoi(tab[2]);
+	pars->sky_col = 0x000000ff;
 	if (c == 'F')
-		pars->sky_col = red * 256 * 256 + green * 256 + blue;
-	if (c == 'C')
 		pars->floor_col = red * 256 * 256 + green * 256 + blue;
 	return (1);
 }
@@ -67,16 +66,18 @@ int	reconize_line(char *line, t_pars *pars)
 	if (line[0] == 'R' && line[1] == ' ')
 		assign_resolution(line, pars);
 	else if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-		pars->no.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+		pars->no.path = ft_strtrim_cub(line, "NO \n", pars);
 	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-		pars->so.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+		pars->so.path = ft_strtrim_cub(line, "SO \n", pars);
 	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-		pars->we.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+		pars->we.path = ft_strtrim_cub(line, "WE \n", pars);
 	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-		pars->ea.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+		pars->ea.path = ft_strtrim_cub(line, "EA \n", pars);
 	else if (line[0] == 'S' && line[1] == ' ')
-		pars->spr_text.path = ft_strtrim_cub(line, "RNOSWEA \n", pars);
-	else if ((line[0] == 'F' || line[0] == 'C') && line[1] == ' ')
+		pars->spr_text.path = ft_strtrim_cub(line, "S \n", pars);
+	else if (line[0] == 'C' && line[1] == ' ')
+		pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);
+	else if (line[0] == 'F' && line[1] == ' ')
 		assign_color_sky_floor(line, pars);
 	return (1);
 }
@@ -92,7 +93,7 @@ int	parsing_first_part(char *file, t_pars *pars)
 	check_file_name(file, pars);
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
-		quit_prog("fct open() parsing_first_part.c failed\n", pars);
+		quit_prog("File do not exist or his name is incorrect\n", pars);
 	ret = get_next_line(fd, &line);
 	while (ret > 0)
 	{

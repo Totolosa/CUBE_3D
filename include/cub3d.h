@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/25 17:35:29 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 17:20:19 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_pars
 	int			player_h;
 	int			sky_col;
 	int			floor_col;
+	t_text		sky_text;
 	t_text		spr_text;
 	t_text		no;
 	t_text		so;
@@ -186,6 +187,7 @@ int		continue_ray_horiz(double x, int y, t_ray *horiz, t_pars *pars);
 
 int		init_print_text(t_print_text *text);
 int		print_wall_col(t_ray *ray, int x, t_pars *pars);
+int		print_sky(int *x_scr, t_ray *ray, t_pars *pars);
 
 int		init_new_sprite(t_sprite *sprite);
 int		calcul_h_sprite(t_pars *p);
