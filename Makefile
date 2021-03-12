@@ -61,13 +61,10 @@ libmlx.dylib:
 clean:
 			$(RM) $(OBJS)
 			make clean -C $(LIBFT)
-			make clean -C $(MINILIBX)
 
 fclean:		clean
 			$(RM) $(NAME)
-			$(RM) libmlx.dylib
 			make fclean -C $(LIBFT)
-			make fclean -C $(MINILIBX)
 
 re:			fclean all
 

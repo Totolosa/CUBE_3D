@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 16:56:03 by tdayde            #+#    #+#             */
-/*   Updated: 2021/01/08 18:59:25 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 14:59:10 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*ft_strdup(const char *s)
 	char	*dest;
 	int		i;
 
-	if ((dest = malloc(sizeof(char) * ft_strlen(s) + 1)) == NULL)
+	dest = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!dest)
 		return (NULL);
 	i = 0;
 	while (s[i])

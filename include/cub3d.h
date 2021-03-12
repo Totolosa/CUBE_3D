@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/02 17:20:19 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:39:29 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # include "mlx.h"
 # include "libft.h"
 # include "get_next_line.h"
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
 
 typedef struct s_key
 {
@@ -164,6 +171,7 @@ int		update_position(t_pars *p);
 int		key_press(int key, t_pars *pars);
 int		key_release(int key, t_pars *pars);
 int		close_window(t_pars *pars);
+int		destroy_mlx_all_mallocs(t_pars *pars);
 int		save_bmp(const char *filename, t_pars *pars);
 
 int		init_pars(t_pars *pars);
@@ -178,6 +186,8 @@ int		start_browse_file(int *ret, char **line, int fd, t_pars *pars);
 char	*ft_strtrim_cub(char const *s1, char const *set, t_pars *pars);
 char	**ft_split_cub(char const *s, char c, t_pars *pars);
 int		quit_prog(char *str, t_pars *pars);
+int		free_obj(void **obj);
+int		len_save(char *argv);
 
 int		init_t_ray(double angle, t_ray *ray);
 int		find_wall_contact(t_ray *ray, t_pars *pars);

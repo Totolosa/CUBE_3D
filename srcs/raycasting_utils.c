@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 16:53:16 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/15 11:51:45 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:45:39 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	continue_ray_horiz(double x, int y, t_ray *horiz, t_pars *pars)
 {
 	if ((x >= 1 && x < pars->map.map_w && y >= 1 && y < pars->map.map_h)
 		&& ((horiz->y_dir > 0 && pars->map.map[y][(int)x] != -1)
-				|| (horiz->y_dir < 0 && pars->map.map[y - 1][(int)x] != -1)))
+			|| (horiz->y_dir < 0 && pars->map.map[y - 1][(int)x] != -1)))
 		return (1);
 	else
 		return (0);
@@ -26,7 +26,7 @@ int	continue_ray_verti(int x, double y, t_ray *verti, t_pars *pars)
 {
 	if ((x >= 1 && x < pars->map.map_w && y >= 1 && y < pars->map.map_h)
 		&& ((verti->x_dir > 0 && pars->map.map[(int)y][x] != -1)
-				|| (verti->x_dir < 0 && pars->map.map[(int)y][x - 1] != -1)))
+			|| (verti->x_dir < 0 && pars->map.map[(int)y][x - 1] != -1)))
 		return (1);
 	else
 		return (0);

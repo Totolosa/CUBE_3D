@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/02 12:16:12 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:42:53 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int	main(int argc, char **argv)
 	modify_img(&pars);
 	if (argc == 3)
 	{
-		if (!ft_strncmp(argv[2], "--save", 6))
+		if (!ft_strncmp(argv[2], "--save", len_save(argv[2])))
+		{
 			save_bmp("save.bmp", &pars);
-		else
-			quit_prog("Save argument error\n", &pars);
+			exit (0);
+		}
+		quit_prog("Save argument error\n", &pars);
 	}
 	mlx_hook(pars.scr.win, 02, 1L << 0, key_press, &pars);
 	mlx_hook(pars.scr.win, 03, 1L << 1, key_release, &pars);

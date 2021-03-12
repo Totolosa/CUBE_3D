@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/02 15:02:44 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 17:37:43 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_keys(t_pars *pars)
 	pars->key.go_right = 0;
 	pars->key.turn_left = 0;
 	pars->key.turn_right = 0;
+	pars->key.close = 0;
 }
 
 void	init_moov(t_pars *pars)

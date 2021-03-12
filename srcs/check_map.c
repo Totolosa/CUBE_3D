@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 18:21:15 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/19 14:00:28 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:39:46 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ int	check_map(t_pars *pars)
 	int	**copy;
 
 	check_valid_char(pars);
-	copy = ft_alloc(sizeof(int*) * pars->map.map_h, pars->free);
+	copy = ft_alloc(sizeof(int *) * pars->map.map_h, &pars->free);
 	y = -1;
 	while (++y < pars->map.map_h)
-		copy[y] = ft_alloc(sizeof(int) * pars->map.map_w, pars->free);
+		copy[y] = ft_alloc(sizeof(int) * pars->map.map_w, &pars->free);
 	y = -1;
 	while (++y < pars->map.map_h)
 	{

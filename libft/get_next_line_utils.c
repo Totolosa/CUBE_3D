@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 15:17:12 by tdayde            #+#    #+#             */
-/*   Updated: 2020/12/07 12:06:48 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:31:11 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	gnl_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -52,7 +52,8 @@ char	*gnl_strdup(const char *s)
 	char	*dest;
 	int		i;
 
-	if ((dest = malloc(sizeof(char) * gnl_strlen(s) + 1)) == NULL)
+	dest = malloc(sizeof(char) * gnl_strlen(s) + 1);
+	if (!dest)
 		return (NULL);
 	i = 0;
 	while (s[i])
@@ -68,37 +69,43 @@ char	*content_after_linebreak(char *s, char c)
 {
 	int		i;
 	int		j;
-	int		len;
+	char	*new;
 
-	len = gnl_strlen(s);
+	new = NULL;
 	i = 0;
-	j = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] != c)
 		i++;
 	i++;
-	while (i < len + 1)
-	{
-		s[j] = s[i];
-		i++;
+	j = 0;
+	while (s[i + j])
 		j++;
-	}
-	return (s);
+	new = malloc(sizeof(char) * (j + 1));
+	if (!new)
+		return (NULL);
+	j = 0;
+	while (s[i])
+		new[j++] = s[i++];
+	new[j] = '\0';
+	free(s);
+	s = NULL;
+	return (new);
 }
 
 char	*content_before_linebreak(char *buff, char c)
 {
 	int		i;
 	int		j;
-	char	*res;
+	char	*new;
 
 	i = 0;
-	while (buff[i] != c && buff[i])
+	while (buff[i] != c)
 		i++;
-	if ((res = malloc(sizeof(char) * (i + 1))) == NULL)
+	new = malloc(sizeof(char) * (i + 1));
+	if (!new)
 		return (NULL);
 	j = -1;
 	while (++j < i)
-		res[j] = buff[j];
-	res[j] = 0;
-	return (res);
+		new[j] = buff[j];
+	new[j] = '\0';
+	return (new);
 }

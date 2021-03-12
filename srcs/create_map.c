@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:16:59 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/23 15:46:33 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:41:07 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	start_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	*ret = get_next_line(fd, line);
 	while (*line[0] != ' ' && *line[0] != '1' && *line[0] != '2' && *ret > 0)
 	{
-		free(*line);
+		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
 	}
 	if (*ret == -1 || *ret == 0)
 	{
-		free(*line);
+		free_obj((void **)line);
 		quit_prog("GNL failed\n", pars);
 	}
 	return (1);
@@ -42,7 +42,7 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 			if (pars->map.map_w < ++count_w)
 				pars->map.map_w++;
 		pars->map.map_h++;
-		free(*line);
+		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
 	}
 	if ((*line)[0] == ' ' || (*line)[0] == '1' || (*line)[0] == '2')
@@ -54,20 +54,20 @@ int	end_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
 	while ((*line)[0] == '\0' && *ret > 0)
 	{
-		free(*line);
+		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
 		if ((*line)[0] != '\0')
 		{
-			free(*line);
+			free_obj((void **)line);
 			quit_prog("Map issue\n", pars);
 		}
 	}
 	if (*ret == -1)
 	{
-		free(*line);
+		free_obj((void **)line);
 		quit_prog("GNL failded\n", pars);
 	}
-	free(*line);
+	free_obj((void **)line);
 	return (1);
 }
 
@@ -86,7 +86,7 @@ int	reconize_size_map(t_pars *pars)
 	map_browse_file(&ret, &line, fd, pars);
 	if (ret == -1)
 	{
-		free(line);
+		free_obj((void **)&line);
 		quit_prog("GNL failded\n", pars);
 	}
 	end_browse_file(&ret, &line, fd, pars);
@@ -100,10 +100,10 @@ int	create_map(t_pars *pars, int c)
 	int	j;
 
 	reconize_size_map(pars);
-	pars->map.map = ft_alloc(sizeof(int*) * pars->map.map_h, pars->free);
+	pars->map.map = ft_alloc(sizeof(int *) * pars->map.map_h, &pars->free);
 	i = -1;
 	while (++i < pars->map.map_h)
-		pars->map.map[i] = ft_alloc(sizeof(int) * pars->map.map_w, pars->free);
+		pars->map.map[i] = ft_alloc(sizeof(int) * pars->map.map_w, &pars->free);
 	i = -1;
 	while (++i < pars->map.map_h)
 	{

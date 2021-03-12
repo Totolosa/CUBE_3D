@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/03 12:47:27 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:43:37 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 	int		blue;
 
 	c = line[0];
-	line = ft_strtrim_cub(line, "RNOSWEA \n", pars);
+	line = ft_strtrim_cub(line, "FC \n", pars);
 	tab = ft_split_cub(line, ',', pars);
 	red = ft_atoi(tab[0]);
 	green = ft_atoi(tab[1]);
 	blue = ft_atoi(tab[2]);
-	pars->sky_col = 0x000000ff;
+	if (c == 'C')
+		pars->sky_col = red * 256 * 256 + green * 256 + blue;
 	if (c == 'F')
 		pars->floor_col = red * 256 * 256 + green * 256 + blue;
 	return (1);
@@ -63,6 +64,8 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 
 int	reconize_line(char *line, t_pars *pars)
 {
+	char	*tmp;
+
 	if (line[0] == 'R' && line[1] == ' ')
 		assign_resolution(line, pars);
 	else if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
@@ -76,7 +79,13 @@ int	reconize_line(char *line, t_pars *pars)
 	else if (line[0] == 'S' && line[1] == ' ')
 		pars->spr_text.path = ft_strtrim_cub(line, "S \n", pars);
 	else if (line[0] == 'C' && line[1] == ' ')
-		pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);
+	{
+		tmp = ft_strtrim_cub(line, "C \n", pars);
+		if (ft_isdigit(tmp[ft_strlen(tmp) - 1]))
+			assign_color_sky_floor(line, pars);
+		else
+			pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);
+	}
 	else if (line[0] == 'F' && line[1] == ' ')
 		assign_color_sky_floor(line, pars);
 	return (1);
@@ -98,14 +107,15 @@ int	parsing_first_part(char *file, t_pars *pars)
 	while (ret > 0)
 	{
 		reconize_line(line, pars);
-		free(line);
+		free_obj((void **)&line);
 		ret = get_next_line(fd, &line);
 	}
 	if (ret == -1)
 	{
-		free(line);
+		free_obj((void **)&line);
 		quit_prog("GNL failed\n", pars);
 	}
+	free_obj((void **)&line);
 	close(fd);
 	return (1);
 }

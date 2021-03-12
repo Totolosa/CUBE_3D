@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 13:51:30 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/03 12:29:41 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:45:01 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,16 @@ int	print_wall_col(t_ray *ray, int x_scr, t_pars *pars)
 		ray->sky_h = ((double)pars->scr.h - ray->w_scr_h) / 2;
 	else
 		ray->sky_h = 0;
-	print_sky(&x_scr, ray, pars);
+	if (pars->sky_text.path != 0)
+		print_sky(&x_scr, ray, pars);
+	else
+	{
+		while (ray->line < ray->sky_h)
+		{
+			pars->scr.img[x_scr + ray->line * pars->scr.s_l] = pars->sky_col;
+			ray->line++;
+		}
+	}
 	print_wall_texture(&x_scr, ray, pars);
 	while (ray->line < pars->scr.h)
 	{

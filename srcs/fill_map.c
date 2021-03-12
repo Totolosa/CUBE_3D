@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:43:44 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/25 17:42:13 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:42:12 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_sprite	*add_sprite(int y, int x, t_pars *pars)
 	t_sprite	*new;
 	int			i;
 
-	new = ft_alloc(sizeof(t_sprite) * (pars->nb_spr + 1), pars->free);
+	new = ft_alloc(sizeof(t_sprite) * (pars->nb_spr + 1), &pars->free);
 	i = -1;
 	while (++i < pars->nb_spr)
 		new[i] = pars->spr[i];
@@ -26,7 +26,6 @@ t_sprite	*add_sprite(int y, int x, t_pars *pars)
 	new[i].v_dir = 0;
 	new[i].v_per = 0;
 	new[i].dst = 0;
-	free(pars->spr);
 	pars->nb_spr++;
 	return (new);
 }
@@ -80,16 +79,21 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	{
 		fill_line_map(i, *line, pars);
 		i++;
-		free(*line);
+		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
 	}
 	if (*ret == -1)
 	{
-		free(*line);
+		free_obj((void **)line);
 		quit_prog("GNL failded\n", pars);
 	}
 	fill_line_map(i, *line, pars);
-	free(*line);
+	free_obj((void **)line);
+	while (*ret > 0)
+	{
+		*ret = get_next_line(fd, line);
+		free_obj((void **)line);
+	}
 	return (1);
 }
 

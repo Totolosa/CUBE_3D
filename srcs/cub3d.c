@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:32:35 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/03 12:29:56 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:46:19 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	modify_img(t_pars *p)
 		print_wall_col(&ray, i, p);
 		i++;
 		init_t_ray((p->moov.ang - (p->scr.fov / 2)
-		+ p->moov.ang_pix * (i + 1)) / (180 / M_PI), &ray);
+				+ p->moov.ang_pix * (i + 1)) / (180 / M_PI), &ray);
 	}
 	if (p->nb_spr > 0)
 	{

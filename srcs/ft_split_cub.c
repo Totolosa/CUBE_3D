@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:59:30 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/18 17:01:59 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:42:35 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**malloc_tab(char *str, char c, t_pars *pars)
 
 	i = 0;
 	j = 0;
-	tab = ft_alloc(sizeof(char*) * (nbr_of_words(str, c) + 1), pars->free);
+	tab = ft_alloc(sizeof(char *) * (nbr_of_words(str, c) + 1), &pars->free);
 	while (str[i])
 	{
 		len_word = 0;
@@ -52,7 +52,7 @@ static char	**malloc_tab(char *str, char c, t_pars *pars)
 			i++;
 		}
 		if (len_word > 0)
-			tab[j++] = ft_alloc(sizeof(char) * (len_word + 1), pars->free);
+			tab[j++] = ft_alloc(sizeof(char) * (len_word + 1), &pars->free);
 	}
 	tab[j] = NULL;
 	return (tab);
@@ -82,14 +82,12 @@ static char	**fill_tab(char **tab, char *str, char c)
 
 char	**ft_split_cub(char const *s, char c, t_pars *pars)
 {
-	int		i;
 	char	*str;
 	char	**tab;
 
-	i = 0;
 	if (s == NULL)
 		return (NULL);
-	str = (char*)s;
+	str = (char *)s;
 	tab = malloc_tab(str, c, pars);
 	if (tab == NULL)
 		return (NULL);

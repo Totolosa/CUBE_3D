@@ -6,14 +6,13 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 16:57:10 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/23 17:35:40 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 12:15:16 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static char		**free_mem(char **tab, int k)
+static char	*free_mem(char **tab, int k)
 {
 	while (k >= 0)
 		free(tab[k--]);
@@ -21,26 +20,15 @@ static char		**free_mem(char **tab, int k)
 	return (NULL);
 }
 
-static int		nbr_of_words(char *str, char c)
+static char	*malloc_word(char ***tab, int len_word, int *j)
 {
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		while (str[i] == c && str[i])
-			i++;
-		if (str[i])
-			count++;
-		while (str[i] != c && str[i])
-			i++;
-	}
-	return (count);
+	(*tab)[*j] = malloc(sizeof(char) * (len_word + 1));
+	if ((*tab)[*j] == NULL)
+		return (free_mem(*tab, *j - 1));
+	return ((*tab)[*j]);
 }
 
-static char		**malloc_tab(char *str, char c)
+static char	**malloc_tab(char *str, char c)
 {
 	int		i;
 	int		j;
@@ -49,7 +37,8 @@ static char		**malloc_tab(char *str, char c)
 
 	i = 0;
 	j = 0;
-	if ((tab = malloc(sizeof(char*) * nbr_of_words(str, c) + 1)) == NULL)
+	tab = malloc(sizeof(char *) * ft_count_words(str, c) + 1);
+	if (!tab)
 		return (NULL);
 	while (str[i])
 	{
@@ -62,22 +51,21 @@ static char		**malloc_tab(char *str, char c)
 			i++;
 		}
 		if (len_word > 0)
-			if ((tab[j++] = malloc(sizeof(char) * (len_word + 1))) == NULL)
-				return (free_mem(tab, j - 1));
+			tab[j++] = malloc_word(&tab, len_word, &j);
 	}
 	tab[j] = NULL;
 	return (tab);
 }
 
-static char		**fill_tab(char **tab, char *str, char c)
+static char	**fill_tab(char **tab, char *str, char c)
 {
 	int	i;
 	int	j;
-	int k;
+	int	k;
 
 	i = 0;
 	j = 0;
-	while (str[i] && j < nbr_of_words(str, c))
+	while (str[i] && j < ft_count_words(str, c))
 	{
 		k = 0;
 		while (str[i] == c && str[i])
@@ -91,15 +79,16 @@ static char		**fill_tab(char **tab, char *str, char c)
 	return (tab);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	*str;
 	char	**tab;
 
 	if (s == NULL)
 		return (NULL);
-	str = (char*)s;
-	if ((tab = malloc_tab(str, c)) == NULL)
+	str = (char *)s;
+	tab = malloc_tab(str, c);
+	if (!tab)
 		return (NULL);
 	tab = fill_tab(tab, str, c);
 	return (tab);

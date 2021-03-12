@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdayde <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 20:15:31 by tdayde            #+#    #+#             */
-/*   Updated: 2020/11/28 14:41:01 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 15:03:43 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	is_on_set(char c, const char *set)
+static int	is_on_set(char c, const char *set)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (set[++i])
@@ -23,7 +23,7 @@ static	int	is_on_set(char c, const char *set)
 	return (0);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
 	int		j;

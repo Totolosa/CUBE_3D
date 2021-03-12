@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdayde <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 17:09:01 by tdayde            #+#    #+#             */
-/*   Updated: 2020/11/30 20:41:53 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 15:00:56 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t i;
-	size_t len_dest;
+	size_t	i;
+	size_t	len_dest;
 
 	i = 0;
 	len_dest = ft_strlen(dest);

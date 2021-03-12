@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 17:15:25 by tdayde            #+#    #+#             */
-/*   Updated: 2020/12/01 13:05:55 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 14:53:22 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list *tmp;
-	t_list *new;
-	t_list *cell;
+	t_list	*tmp;
+	t_list	*new;
+	t_list	*cell;
 
 	tmp = lst;
 	new = NULL;

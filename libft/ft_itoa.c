@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:59:57 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/23 17:36:05 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 14:52:28 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	nb_of_digit(long int n)
 {
-	int nb_of_char;
+	int	nb_of_char;
 
 	nb_of_char = 0;
 	if (n < 0)
@@ -30,7 +30,7 @@ static int	nb_of_digit(long int n)
 	return (nb_of_char + 1);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int			i;
 	int			nb_of_char;

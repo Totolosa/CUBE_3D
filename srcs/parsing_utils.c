@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:16:27 by tdayde            #+#    #+#             */
-/*   Updated: 2021/02/19 13:46:19 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/12 12:44:41 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_strtrim_cub(char const *s1, char const *set, t_pars *pars)
 	while (is_on_set(s1[j], set))
 		j--;
 	len_dest = j - i + 2;
-	dest = ft_alloc(sizeof(char) * len_dest, pars->free);
+	dest = ft_alloc(sizeof(char) * len_dest, &pars->free);
 	if (dest == NULL)
 		return (NULL);
 	j = -1;
@@ -51,8 +51,27 @@ char	*ft_strtrim_cub(char const *s1, char const *set, t_pars *pars)
 	return (dest);
 }
 
+int	free_obj(void **obj)
+{
+	free(*obj);
+	*obj = NULL;
+	return (1);
+}
+
+int	len_save(char *argv)
+{
+	int	len_argv;
+
+	len_argv = ft_strlen(argv);
+	if (len_argv > 6)
+		return (len_argv);
+	else
+		return (6);
+}
+
 int	quit_prog(char *str, t_pars *pars)
 {
+	destroy_mlx_all_mallocs(pars);
 	ft_lstclear(&pars->free, free);
 	write(1, "Error\n", 6);
 	write(1, str, ft_strlen(str));
