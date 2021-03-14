@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:58:53 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/10 15:53:00 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 15:51:39 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,22 @@ int	key_release(int key, t_pars *pars)
 
 int	destroy_mlx_all_mallocs(t_pars *pars)
 {
-	mlx_destroy_image(pars->scr.mlx, pars->scr.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->no.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->so.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->we.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->ea.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->spr_text.img_ptr);
-	mlx_destroy_image(pars->scr.mlx, pars->sky_text.img_ptr);
-	mlx_destroy_window(pars->scr.mlx, pars->scr.win);
+	if (pars->scr.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->scr.img_ptr);
+	if (pars->no.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->no.img_ptr);
+	if (pars->so.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->so.img_ptr);
+	if (pars->we.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->we.img_ptr);
+	if (pars->ea.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->ea.img_ptr);
+	if (pars->spr_text.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->spr_text.img_ptr);
+	if (pars->sky_text.img_ptr)
+		mlx_destroy_image(pars->scr.mlx, pars->sky_text.img_ptr);
+	if (pars->scr.win)
+		mlx_destroy_window(pars->scr.mlx, pars->scr.win);
 	return (1);
 }
 

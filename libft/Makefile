@@ -48,7 +48,11 @@ SRCS		= 	ft_memset.c\
 				ft_alloc.c\
 				ft_count_words.c\
 
-OBJS		= $(SRCS:.c=.o)
+SRCS_PATH	= srcs/
+
+SRCS_LOC	= $(addprefix $(SRCS_PATH),$(SRCS))
+
+OBJS		= $(SRCS_LOC:.c=.o)
 
 CC          = gcc
 
