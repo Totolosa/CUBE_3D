@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 16:47:58 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/02 15:07:58 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:24:29 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	init_print_text(t_print_text *text)
 	return (1);
 }
 
-int	init_one_text(t_text *text)
+static int	init_one_text(t_text *text)
 {
 	text->path = 0;
 	text->img_ptr = 0;

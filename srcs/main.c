@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:46:18 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:42:53 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:37:44 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	main(int argc, char **argv)
 {
 	t_pars	pars;
 
-	if (argc != 2 && argc != 3)
-		quit_prog("Number of argument(s) error\n", &pars);
 	setbuf(stdout, NULL);
 	init_pars(&pars);
+	if (argc != 2 && argc != 3)
+		quit_prog("Number of argument(s) error\n", &pars);
 	if (!parsing(&pars, argv[1]))
 		quit_prog("Parsing failed\n", &pars);
 	modify_img(&pars);

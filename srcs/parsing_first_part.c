@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:43:37 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 16:05:14 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	assign_resolution(char *line, t_pars *p)
 
 	resolution = ft_strtrim_cub(line, "RNOSWEA \n", p);
 	tab = ft_split_cub(resolution, ' ', p);
+	check_resolution(tab, p);
 	p->scr.w = ft_atoi(tab[0]);
 	p->scr.h = ft_atoi(tab[1]);
 	return (1);
@@ -52,6 +53,7 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 	c = line[0];
 	line = ft_strtrim_cub(line, "FC \n", pars);
 	tab = ft_split_cub(line, ',', pars);
+	check_rgb(tab, pars);
 	red = ft_atoi(tab[0]);
 	green = ft_atoi(tab[1]);
 	blue = ft_atoi(tab[2]);
@@ -81,7 +83,7 @@ int	reconize_line(char *line, t_pars *pars)
 	else if (line[0] == 'C' && line[1] == ' ')
 	{
 		tmp = ft_strtrim_cub(line, "C \n", pars);
-		if (ft_isdigit(tmp[ft_strlen(tmp) - 1]))
+		if (ft_isdigit(tmp[0]))
 			assign_color_sky_floor(line, pars);
 		else
 			pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);

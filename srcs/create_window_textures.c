@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 14:19:12 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:41:25 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 16:53:25 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	create_wind(t_pars *p)
 		p->scr.h = p->scr.real_h;
 	p->scr.win = mlx_new_window(p->scr.mlx, p->scr.w, p->scr.h, "CUB3D");
 	if (!p->scr.win)
-		return (0);
+		quit_prog("North texture creation failed\n", p);
 	p->scr.img_ptr = mlx_new_image(p->scr.mlx, p->scr.w, p->scr.h);
 	if (!p->scr.img_ptr)
-		return (0);
+		quit_prog("North texture creation failed\n", p);
 	p->scr.img = (int *)mlx_get_data_addr(p->scr.img_ptr,
 			&p->scr.bpp, &p->scr.s_l, &p->scr.endian);
 	if (!p->scr.img)
-		return (0);
+		quit_prog("North texture creation failed\n", p);
 	p->scr.s_l /= 4;
 	p->w_dst_col = ft_alloc(sizeof(double) * p->scr.w, &p->free);
 	p->moov.ang_pix = p->scr.fov / (double)p->scr.w;

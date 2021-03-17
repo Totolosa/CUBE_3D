@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:39:29 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:24:58 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,11 @@ int		destroy_mlx_all_mallocs(t_pars *pars);
 int		save_bmp(const char *filename, t_pars *pars);
 
 int		init_pars(t_pars *pars);
+int		init_text(t_pars *pars);
 int		parsing(t_pars *pars, char *file);
 int		parsing_first_part(char *file, t_pars *pars);
+int		check_rgb(char **tab, t_pars *p);
+int		check_resolution(char **tab, t_pars *p);
 int		create_window_textures(t_pars *pars);
 int		create_map(t_pars *pars, int c);
 int		fill_map(t_pars *pars);

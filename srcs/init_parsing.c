@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:10:55 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/11 17:37:43 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:24:35 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	init_pars(t_pars *pars)
 	init_moov(pars);
 	init_screen(pars);
 	init_map(pars);
+	init_text(pars);
 	pars->free = NULL;
 	pars->spr = 0;
 	pars->nb_spr = 0;
