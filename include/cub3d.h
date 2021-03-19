@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:35:41 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/16 17:24:58 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 16:46:32 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,28 @@ typedef struct s_map
 	int		map_h;
 }	t_map;
 
+typedef struct s_declar
+{
+	char	res;
+	int		no;
+	int		so;
+	int		we;
+	int		ea;
+	int		sky;
+	int		floor;
+	int		spr;
+}	t_declar;
+
 typedef struct s_pars
 {
-	t_list		*free;
-	t_key		key;
+	t_declar	declaration;
 	t_screen	scr;
+	t_text		sky_text;
+	t_text		spr_text;
+	t_text		no;
+	t_text		so;
+	t_text		we;
+	t_text		ea;
 	t_map		map;
 	t_moov		moov;
 	t_sprite	*spr;
@@ -157,12 +174,8 @@ typedef struct s_pars
 	int			player_h;
 	int			sky_col;
 	int			floor_col;
-	t_text		sky_text;
-	t_text		spr_text;
-	t_text		no;
-	t_text		so;
-	t_text		we;
-	t_text		ea;
+	t_key		key;
+	t_list		*free;
 }	t_pars;
 
 int		modify_img(t_pars *pars);
@@ -178,8 +191,12 @@ int		init_pars(t_pars *pars);
 int		init_text(t_pars *pars);
 int		parsing(t_pars *pars, char *file);
 int		parsing_first_part(char *file, t_pars *pars);
-int		check_rgb(char **tab, t_pars *p);
+int		check_file_name(char *file, t_pars *pars);
+int		check_rgb(char *line, t_pars *p);
 int		check_resolution(char **tab, t_pars *p);
+int		end_parsing_first_part(int fd, int ret, char **line, t_pars *pars);
+int		assign_text(char **path, char *trim, char *line, t_pars *pars);
+int		check_declaration(t_pars *pars);
 int		create_window_textures(t_pars *pars);
 int		create_map(t_pars *pars, int c);
 int		fill_map(t_pars *pars);
@@ -191,6 +208,7 @@ char	**ft_split_cub(char const *s, char c, t_pars *pars);
 int		quit_prog(char *str, t_pars *pars);
 int		free_obj(void **obj);
 int		len_save(char *argv);
+int		ft_atoi_cub(const char *str);
 
 int		init_t_ray(double angle, t_ray *ray);
 int		find_wall_contact(t_ray *ray, t_pars *pars);

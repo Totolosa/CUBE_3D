@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:43:44 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:42:12 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/17 17:08:50 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	int	i;
 
 	i = 0;
-	while (((*line)[0] == ' ' || (*line)[0] == '1'
+	while (((*line)[0] == ' ' || (*line)[0] == '0' || (*line)[0] == '1'
 			|| (*line)[0] == '2') && *ret > 0)
 	{
 		fill_line_map(i, *line, pars);

@@ -15,6 +15,7 @@ SRCS		= 	main.c \
 				check_map.c \
 				parsing_utils.c \
 				parsing_utils2.c \
+				parsing_utils3.c \
 				ft_split_cub.c \
 				raycasting.c \
 				raycasting_utils.c \
@@ -29,7 +30,7 @@ OBJS		= $(srcs:.c=.o)
 
 CC          = gcc
 
-CFLAGS      = -Wall -Werror -Wextra  -g
+CFLAGS      = -Wall -Werror -Wextra
 
 INCLUDE		= -Iinclude -I$(MINILIBX) -I$(LIBFT)/include
 
