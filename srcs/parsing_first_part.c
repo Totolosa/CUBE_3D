@@ -6,30 +6,13 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:42:39 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/16 16:05:14 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/19 12:41:49 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_file_name(char *file, t_pars *pars)
-{
-	unsigned int	len;
-
-	len = ft_strlen(file) - 1;
-	if (file[len] != 'b')
-		quit_prog("Error file name\n", pars);
-	if (file[len - 1] != 'u')
-		quit_prog("Error file name\n", pars);
-	if (file[len - 2] != 'c')
-		quit_prog("Error file name\n", pars);
-	if (file[len - 3] != '.')
-		quit_prog("Error file name\n", pars);
-	pars->map.map_file = file;
-	return (1);
-}
-
-int	assign_resolution(char *line, t_pars *p)
+static int	assign_resolution(char *line, t_pars *p)
 {
 	char	*resolution;
 	char	**tab;
@@ -37,12 +20,13 @@ int	assign_resolution(char *line, t_pars *p)
 	resolution = ft_strtrim_cub(line, "RNOSWEA \n", p);
 	tab = ft_split_cub(resolution, ' ', p);
 	check_resolution(tab, p);
-	p->scr.w = ft_atoi(tab[0]);
-	p->scr.h = ft_atoi(tab[1]);
+	p->scr.w = ft_atoi_cub(tab[0]);
+	p->scr.h = ft_atoi_cub(tab[1]);
+	p->declaration.res++;
 	return (1);
 }
 
-int	assign_color_sky_floor(char *line, t_pars *pars)
+static int	assign_color(char *line, t_pars *pars)
 {
 	char	**tab;
 	char	c;
@@ -52,72 +36,80 @@ int	assign_color_sky_floor(char *line, t_pars *pars)
 
 	c = line[0];
 	line = ft_strtrim_cub(line, "FC \n", pars);
+	check_rgb(line, pars);
 	tab = ft_split_cub(line, ',', pars);
-	check_rgb(tab, pars);
-	red = ft_atoi(tab[0]);
-	green = ft_atoi(tab[1]);
-	blue = ft_atoi(tab[2]);
+	red = ft_atoi_cub(tab[0]);
+	green = ft_atoi_cub(tab[1]);
+	blue = ft_atoi_cub(tab[2]);
 	if (c == 'C')
 		pars->sky_col = red * 256 * 256 + green * 256 + blue;
 	if (c == 'F')
+	{
 		pars->floor_col = red * 256 * 256 + green * 256 + blue;
+		pars->declaration.floor++;
+	}
+	return (1);
+}
+
+static int	assign_sky(char *line, t_pars *pars)
+{
+	char	*tmp;
+
+	tmp = ft_strtrim_cub(line, "C \n", pars);
+	if (ft_isdigit(tmp[0]))
+		assign_color(line, pars);
+	else
+		pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);
+	pars->declaration.sky++;
 	return (1);
 }
 
 int	reconize_line(char *line, t_pars *pars)
 {
-	char	*tmp;
-
-	if (line[0] == 'R' && line[1] == ' ')
+	if (line[0] == '\0')
+		return (1);
+	else if (line[0] == 'R' && line[1] == ' ')
 		assign_resolution(line, pars);
 	else if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-		pars->no.path = ft_strtrim_cub(line, "NO \n", pars);
+		assign_text(&pars->no.path, "NO \n", line, pars);
 	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-		pars->so.path = ft_strtrim_cub(line, "SO \n", pars);
+		assign_text(&pars->so.path, "SO \n", line, pars);
 	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-		pars->we.path = ft_strtrim_cub(line, "WE \n", pars);
+		assign_text(&pars->we.path, "WE \n", line, pars);
 	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-		pars->ea.path = ft_strtrim_cub(line, "EA \n", pars);
+		assign_text(&pars->ea.path, "EA \n", line, pars);
 	else if (line[0] == 'S' && line[1] == ' ')
-		pars->spr_text.path = ft_strtrim_cub(line, "S \n", pars);
+		assign_text(&pars->spr_text.path, "S \n", line, pars);
 	else if (line[0] == 'C' && line[1] == ' ')
-	{
-		tmp = ft_strtrim_cub(line, "C \n", pars);
-		if (ft_isdigit(tmp[0]))
-			assign_color_sky_floor(line, pars);
-		else
-			pars->sky_text.path = ft_strtrim_cub(line, "C \n", pars);
-	}
+		assign_sky(line, pars);
 	else if (line[0] == 'F' && line[1] == ' ')
-		assign_color_sky_floor(line, pars);
+		assign_color(line, pars);
+	else
+		quit_prog("Line Incorect\n", pars);
 	return (1);
 }
 
 int	parsing_first_part(char *file, t_pars *pars)
 {
 	int		ret;
-	char	*line;
+	char	*l;
 	int		fd;
 
-	line = NULL;
+	l = NULL;
 	ret = 0;
 	check_file_name(file, pars);
 	fd = open(pars->map.map_file, O_RDONLY);
 	if (fd == -1)
 		quit_prog("File do not exist or his name is incorrect\n", pars);
-	ret = get_next_line(fd, &line);
-	while (ret > 0)
+	ret = get_next_line(fd, &l);
+	while (ret > 0 && l[0] != ' ' && l[0] != '0' && l[0] != '1' && l[0] != '2')
 	{
-		reconize_line(line, pars);
-		free_obj((void **)&line);
-		ret = get_next_line(fd, &line);
+		reconize_line(l, pars);
+		free_obj((void **)&l);
+		ret = get_next_line(fd, &l);
 	}
-	if (ret == -1)
-	{
-		free_obj((void **)&line);
-		quit_prog("GNL failed\n", pars);
-	}
-	free_obj((void **)&line);
+	end_parsing_first_part(fd, ret, &l, pars);
+	check_declaration(pars);
 	close(fd);
 	return (1);
 }

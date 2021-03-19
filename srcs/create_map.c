@@ -6,7 +6,7 @@
 /*   By: tdayde <tdayde@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:16:59 by tdayde            #+#    #+#             */
-/*   Updated: 2021/03/12 12:41:07 by tdayde           ###   ########lyon.fr   */
+/*   Updated: 2021/03/17 18:16:11 by tdayde           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	start_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
 	*ret = get_next_line(fd, line);
-	while (*line[0] != ' ' && *line[0] != '1' && *line[0] != '2' && *ret > 0)
+	while (*line[0] != ' ' && *line[0] != '0' && *line[0] != '1'
+		&& *line[0] != '2' && *ret > 0)
 	{
 		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
@@ -33,7 +34,7 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 	int	i;
 	int	count_w;
 
-	while (((*line)[0] == ' ' || (*line)[0] == '1'
+	while (((*line)[0] == ' ' || (*line)[0] == '0' || (*line)[0] == '1'
 			|| (*line)[0] == '2') && *ret > 0)
 	{
 		i = -1;
@@ -45,12 +46,13 @@ static int	map_browse_file(int *ret, char **line, int fd, t_pars *pars)
 		free_obj((void **)line);
 		*ret = get_next_line(fd, line);
 	}
-	if ((*line)[0] == ' ' || (*line)[0] == '1' || (*line)[0] == '2')
+	if ((*line)[0] == ' ' || (*line)[0] == '0'
+		|| (*line)[0] == '1' || (*line)[0] == '2')
 		pars->map.map_h++;
 	return (1);
 }
 
-int	end_browse_file(int *ret, char **line, int fd, t_pars *pars)
+static int	end_browse_file(int *ret, char **line, int fd, t_pars *pars)
 {
 	while ((*line)[0] == '\0' && *ret > 0)
 	{
